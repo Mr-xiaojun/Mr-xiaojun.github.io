@@ -213,29 +213,13 @@
 <p>在ECC流行起来之前，几乎所有的公钥算法都是基于RSA、DSA和DH ———— 基于模运算的可选加密系统。RSA及其友类算法在当前仍非常重要，经常与ECC一并使用。不过，RSA及其友类算法背后的原理很容易解释，因而被广泛理解，一些简单的实现也可以很容易编写出来；但ECC的实现基础对于大多数人来说仍很神秘。</p>
 <p>通过一系列的博文，我打算用一个通俗的方式介绍椭圆曲线密码学。我的目标不是提供ECC完整和详细的指导（网上有这方面的充足信息），而是简单概述“ECC是什么、为什么它被认为是安全的”，避免把时间浪费在长篇的数学证明和恼人的实现细节上。我还将提供一些辅助示例以及可视化图形工具和脚本给大家使用。</p>
 <p>具体来说，我将触及以下主题：</p>
-<ul>
-<li>
 <ol>
 <li>基于实数域的椭圆曲线和群公理（本文中涉及）</li>
-</ol>
-</li>
-<li>
-<ol start="2">
 <li>基于有限域的椭圆曲线和离散对数问题</li>
-</ol>
-</li>
-<li>
-<ol start="3">
 <li>密钥对的生成以及两个ECC算法：ECDH和ECDSA</li>
+<li>破坏ECC安全性的算法，并与RSA作对比<br>
+为了能够理解本文所述的内容，你需要了解集（set)理论、几何、模运算等基本概念，并大致知道对称式和非对称式加密。此外，你需要清楚的知道什么是“易解”问题，什么是“难解”问题，以及它们在密码学中的角色。</li>
 </ol>
-</li>
-<li>
-<ol start="4">
-<li>破坏ECC安全性的算法，并与RSA作对比</li>
-</ol>
-</li>
-</ul>
-<p>为了能够理解本文所述的内容，你需要了解集（set)理论、几何、模运算等基本概念，并大致知道对称式和非对称式加密。此外，你需要清楚的知道什么是“易解”问题，什么是“难解”问题，以及它们在密码学中的角色。</p>
 <p>准备好了吗？开始！</p>
 <h2><span id="椭圆曲线">椭圆曲线</span></h2>
 <p>首先，什么是椭圆曲线?<a href="http://mathworld.wolfram.com/" target="_blank" rel="noopener">MathWorld</a>线上数学百科全书给出了一个极好并完整的定义。不过，针对我们的学习目的，椭圆曲线将简化为用下面这个等式所描述的点的集合：</p>
@@ -250,37 +234,15 @@
 <img src="/article/椭圆曲线密码学简介/公式2.png">
 <h2><span id="群">群</span></h2>
 <p>数学中的“群”是一个由我们定义了一种二元运算的集合，二元运算我们称之为“加法”，并用符号“+”来表示。为了让一个集合G成为群，必须定义加法运算并使之具有以下四个特性：</p>
-<ul>
-<li>
 <ol>
 <li>封闭性：如果a和b是集合G中的元素，那么（a + b)也是集合G中的元素。</li>
-</ol>
-</li>
-<li>
-<ol start="2">
 <li>结合律：(a + b) + c = a + (b + c);</li>
-</ol>
-</li>
-<li>
-<ol start="3">
 <li>存在单位元0，使得a + 0 = 0 + a =a;</li>
+<li>每个元素都有逆元，即：对于任意a，存在b，使得a + b = 0.<br>
+如果我们增加第5个条件：</li>
+<li>交换律： a + b = b + a<br>
+那么，称这个群为阿贝尔（abelian)群。</li>
 </ol>
-</li>
-<li>
-<ol start="4">
-<li>每个元素都有逆元，即：对于任意a，存在b，使得a + b = 0.</li>
-</ol>
-</li>
-</ul>
-<p>如果我们增加第5个条件：</p>
-<ul>
-<li>
-<ol start="5">
-<li>交换律： a + b = b + a</li>
-</ol>
-</li>
-</ul>
-<p>那么，称这个群为阿贝尔（abelian)群。</p>
 <p>配上通常概念的加法时，整数的集合Z就是一个群（同时还是个阿贝尔群）。而自然数的集合（N）就不是群，因为它不满足第4个特性。</p>
 <p>“群”很有用，因为一旦我们证明它具备上述4个特性，那么我们就可以自由地获取到一些其他特性。比如：单位元是唯一的；此外，逆元也是唯一的，即：对于每一个a，存在唯一的一个b，使得a + b = 0 （我们可以将b写成-a）。后面我们会发现，群的这些特性以及其他存在的事实，或者直接或者间接，对于我们来说非常重要。</p>
 <h2><span id="椭圆曲线的群公理">椭圆曲线的群公理</span></h2>
@@ -370,12 +332,33 @@ P = Q 的情况需要做点不同的处理：方程中 xR 和 yR 相同, 由于 
 <p>“加倍（double)与相加（add)”算法需要这样做:<br>
 • 取 P. • 加倍，得到2P. • 2P与P相加(为了得到 21P + 20P). • 加倍 2P，得到22 P. • 与前一结果相加 (得到 22P + 21P + 20P). • 加倍 22P，得到23P. • 对23P不做任何操作. • 加倍23P，得到24P. • 与前一结果相加 (得到 24P + 22P + 21P + 20P). • … 最后，我们可以计算151 • P ，只需7次“加倍”运算和4次“相加”运算。</p>
 <p>如果还不够清楚，这里有一个实现该算法的python代码段：</p>
-<pre><code></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def bits(n):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Generates the binary digits of n, starting</span><br><span class="line">    from the least significant bit.</span><br><span class="line"></span><br><span class="line">    bits(151) -&gt; 1, 1, 1, 0, 1, 0, 0, 1</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    while n:</span><br><span class="line">        yield n &amp; 1</span><br><span class="line">        n &gt;&gt;= 1</span><br><span class="line"></span><br><span class="line">def double_and_add(n, x):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Returns the result of n * x, computed using</span><br><span class="line">    the double and add algorithm.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    result = 0</span><br><span class="line">    addend = x</span><br><span class="line"></span><br><span class="line">    for bit in bits(n):</span><br><span class="line">        if bit == 1:</span><br><span class="line">            result += addend</span><br><span class="line">        addend *= 2</span><br><span class="line"></span><br><span class="line">    return result</span><br></pre></td></tr></table></figure>
 <p>如果“加倍”和“相加”操作复杂度均为O(1),那么 该算法的时间复杂度为O(log n) (或是O(k)，如果我们考虑的是二进制位的长度），这相当不错。比最初O(n)的算法肯定要好得多。</p>
 <h2><span id="对数">对数</span></h2>
 <p>给定n和P, 我们现在至少有一个多项式时间算法来计算Q = nP。不过，逆运算需要计算多少轮呢？如果已知Q和P，我们想求解n会怎么样？这一问题被称为对数问题。我们称之为“对数”而不是“除法”是为了与其他加密系统（在术语上）保持统一（那些系统中，不称“乘法”，而称“幂”）。</p>
 <p>我不知道任何关于对数问题的“易解”算法，不过，通过摆弄乘法 ，很容易发现一些模式。例如，对于曲线 y2 = x3 – 3x + 1和点 P = (0, 1). 我们可以立即验证出, 如果n为奇数，nP在曲线的左半面，如果n为偶数，nP在曲线的右半面。如果我们尝试更多次，我们或许可以找出更多的模式，最终可以让我们写出一个算法来高效计算那条曲线的对数问题。</p>
 <p>不过，对数问题有一个变体：离散对数问题。在下一篇博文中，我们将看到，当我们对椭圆曲线的域进行缩减后，标量乘法仍旧”易解“，而离散对数问题成为了”难解”问题。这种双重性是椭圆曲线密码学的关键基石。</p>
+<hr>
+<p>PS:  补充一下 公式 Xr =  m ^2 - Xp - Qq 是怎么推导出的：</p>
+<p>关于三次方程的求解过程，此处不再赘述。有兴趣的可以看一下这个视频：<a href="https://www.youtube.com/watch?v=7leAwQHVvz0" target="_blank" rel="noopener">https://www.youtube.com/watch?v=7leAwQHVvz0</a></p>
+<p>求解后，得到三个根：</p>
+<img src="/article/椭圆曲线密码学简介/公式13.png">
+<img src="/article/椭圆曲线密码学简介/公式14.png">
+<p>单独求任何一个根都很麻烦，不过，如果把三个根相加会发现：x1 + x2 + x3 刚好等于 -b，也就是只与其中二次方项的系数b有关。</p>
+<p>由于我们已经知道曲线上的两个点Xp和Xq了，那么求Xr就有了简单方法：</p>
+<p>由直线方程可知：(y – y1) = m (x – x1)， y = m(x – x1) + y1。 ……(1) 将（1）代入到椭圆方程 y2 = x3 + ax + b ……(2)</p>
+<p>得到： [m(x - x1) + y1] 2 = x3  + ax + b …….(3)</p>
+<p>通过判别式判断出这个三次方程有三个解，所以（3）也可以改写成下面的形式 （x – x1) (x – x2)(x – x3) = 0 ………(4)</p>
+<p>根据前面的推导，可知这个三次方程的三个根之和等于左边这个二次方项的系数。</p>
+<p>由（3）式可知，其中二次方项的系数为m2，所以 x1 + x2 + x3 = m2.</p>
+<p>解得第三个点 x3 =m2 – x1 – x2</p>
+<p><strong>即：  Xr =  m2 - Xp - Qq</strong></p>
+<hr>
+<p>这篇文章不是博主自己翻译的!!!<br>
+博主是先在网上看到这篇译文,发现原作者椭圆曲线系列有四篇文章,都非常不错!网上没有找到其他三篇的译文觉得可惜,所以萌生了翻译其他三篇的想法,希望能与君共享好文,共同进步!<br>
+是在ANDREA CORBELLINI 译者：chehw (<a href="mailto:htc.chehw@gmail.com" target="_blank" rel="noopener">htc.chehw@gmail.com</a>) 稍做修改!<br>
+原译文:<a href="https://www.8btc.com/article/63058" target="_blank" rel="noopener">https://www.8btc.com/article/63058</a><br>
+原文:<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/</a></p>
 
                 
 
