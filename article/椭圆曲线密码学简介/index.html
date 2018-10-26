@@ -345,18 +345,18 @@ P = Q 的情况需要做点不同的处理：方程中 xR 和 yR 相同, 由于 
 <img src="/article/椭圆曲线密码学简介/公式13.png">
 <img src="/article/椭圆曲线密码学简介/公式14.png">
 <p>单独求任何一个根都很麻烦，不过，如果把三个根相加会发现：x1 + x2 + x3 刚好等于 -b，也就是只与其中二次方项的系数b有关。</p>
-<p>由于我们已经知道曲线上的两个点Xp和Xq了，那么求Xr就有了简单方法：</p>
-<p>由直线方程可知：(y – y1) = m (x – x1)， y = m(x – x1) + y1。 ……(1) 将（1）代入到椭圆方程 y2 = x3 + ax + b ……(2)</p>
+<p>由于我们已经知道曲线上的两个点Xp和Xq了，那么求Xr就有了简单方法：<br>
+由直线方程可知：(y – y1) = m (x – x1)， y = m(x – x1) + y1。 ……(1) 将（1）代入到椭圆方程 y2 = x3 + ax + b ……(2)</p>
 <p>得到： [m(x - x1) + y1] 2 = x3  + ax + b …….(3)</p>
 <p>通过判别式判断出这个三次方程有三个解，所以（3）也可以改写成下面的形式 （x – x1) (x – x2)(x – x3) = 0 ………(4)</p>
-<p>根据前面的推导，可知这个三次方程的三个根之和等于左边这个二次方项的系数。</p>
-<p>由（3）式可知，其中二次方项的系数为m2，所以 x1 + x2 + x3 = m2.</p>
-<p>解得第三个点 x3 =m2 – x1 – x2</p>
-<p><strong>即：  Xr =  m2 - Xp - Qq</strong></p>
+<p>根据前面的推导，可知这个三次方程的三个根之和等于左边这个二次方项的系数。<br>
+由（3）式可知，其中二次方项的系数为m2，所以 x1 + x2 + x3 = m2.<br>
+解得第三个点 x3 =m2 – x1 – x2<br>
+<strong>即：  Xr =  m2 - Xp - Qq</strong></p>
 <hr>
 <p>这篇文章不是博主自己翻译的!!!<br>
-博主是先在网上看到这篇译文,发现原作者椭圆曲线系列有四篇文章,都非常不错!网上没有找到其他三篇的译文觉得可惜,所以萌生了翻译其他三篇的想法,希望能与君共享好文,共同进步!<br>
 是在ANDREA CORBELLINI chehw (<a href="mailto:htc.chehw@gmail.com" target="_blank" rel="noopener">htc.chehw@gmail.com</a>) 翻译的基础上稍做修改搬过来的!<br>
+博主是先在网上看到这篇译文,发现原作者椭圆曲线系列有四篇文章,都非常不错!网上没有找到其他三篇的译文觉得可惜,所以萌生了翻译其他三篇的想法,希望能与君共享好文,共同进步!<br>
 原译文:<a href="https://www.8btc.com/article/63058" target="_blank" rel="noopener">https://www.8btc.com/article/63058</a><br>
 原文:<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/</a></p>
 
