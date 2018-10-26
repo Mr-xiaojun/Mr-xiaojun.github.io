@@ -208,8 +208,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>这期内容是<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">ECC:基本介绍</a>( ECC: a gentle introduction.)系列的第二篇.</p>
-<p>在上一篇文章,我们知道了怎样利用椭圆曲线在实数域上定义一个群.特别的,我们定义了<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#group-law" target="_blank" rel="noopener">点的加法</a>( point addition)规则:给定三个对齐点,它们的和为0(P + Q +R = 0).我们衍生出了计算点的加法的<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#geometric-addition" target="_blank" rel="noopener">代数方法</a>( geometric method )和<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#algebraic-addition" target="_blank" rel="noopener">几何方法</a>( algebraic method).</p>
+                <p>这期内容是ECC:基本介绍(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">ECC: a gentle introduction.</a>)系列的第二篇.</p>
+<p>在上一篇文章,我们知道了怎样利用椭圆曲线在实数域上定义一个群.特别的,我们定义了点的加法(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#group-law" target="_blank" rel="noopener">point addition</a>)规则:给定三个对齐点,它们的和为0(P + Q +R = 0).我们衍生出了计算点的加法的代数方法(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#geometric-addition" target="_blank" rel="noopener">geometric method </a>)和几何方法(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#algebraic-addition" target="_blank" rel="noopener">algebraic method</a>).</p>
 <p>我们还介绍了标量乘法**(nP = P + P + … + P)**,并且我们还找出了计算标量乘法的“简单”方法:<strong>加倍(double)<strong>与</strong>相加(add)</strong></p>
 <p>现在我们要<strong>限定椭圆曲线到有限域上</strong>,而不是实数集合,我们看看会有哪些变化</p>
 <h2><span id="整数模p域">整数模P域</span></h2>
@@ -235,7 +235,7 @@
 <p>正如我们之前说的,整数模P是一个域,并且满足上面列出的所有属性.注意,P是素数这个要求非常重要!集合整数模4就不是一个域:2没有乘法逆元(例如 等式 2·x mod 4 = 1 没有解)</p>
 <h2><span id="模p除法">模P除法</span></h2>
 <p>我们将很快定义𝔽p上的椭圆曲线,但是在这之前我们得搞清楚𝔽p上x/y的含义.简单的说: x/y= x·y^{-1},或者更直白的说,x除以y等于x倍的y的乘法逆元.事实令人惊讶,但是给了我们一个简单的方法去执行除法操作:<strong>找到一个数的的乘法逆元然后执行简单的乘法操作</strong></p>
-<p>计算乘法逆元可以使用<a href="http://en.wikipedia.org/wiki/Extended_Euclidean_algorithm" target="_blank" rel="noopener">扩展欧几里德</a>( extended Euclidean algorithm)算法,这个算法的最坏时间复杂度为O(logP)(当我们考虑二进制长度时为O(k)).</p>
+<p>计算乘法逆元可以使用扩展欧几里德(<a href="http://en.wikipedia.org/wiki/Extended_Euclidean_algorithm" target="_blank" rel="noopener">extended Euclidean algorithm</a>)算法,这个算法的最坏时间复杂度为O(logP)(当我们考虑二进制长度时为O(k)).</p>
 <p>我们不会深入扩展欧几里德算法的细节,这超出了本文的范围,但是下面给出了一个Python的实现.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">def extended_euclidean_algorithm(a, b):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Returns a three-tuple (gcd, x, y) such that</span><br><span class="line">    a * x + b * y == gcd, where gcd is the greatest</span><br><span class="line">    common divisor of a and b.</span><br><span class="line"></span><br><span class="line">    This function implements the extended Euclidean</span><br><span class="line">    algorithm and runs in O(log b) in the worst case.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    s, old_s = 0, 1</span><br><span class="line">    t, old_t = 1, 0</span><br><span class="line">    r, old_r = b, a</span><br><span class="line"></span><br><span class="line">    while r != 0:</span><br><span class="line">        quotient = old_r // r</span><br><span class="line">        old_r, r = r, old_r - quotient * r</span><br><span class="line">        old_s, s = s, old_s - quotient * s</span><br><span class="line">        old_t, t = t, old_t - quotient * t</span><br><span class="line"></span><br><span class="line">    return old_r, old_s, old_t</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def inverse_of(n, p):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Returns the multiplicative inverse of</span><br><span class="line">    n modulo p.</span><br><span class="line"></span><br><span class="line">    This function returns an integer m such that</span><br><span class="line">    (n * m) % p == 1.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    gcd, x, y = extended_euclidean_algorithm(n, p)</span><br><span class="line">    assert (n * x + p * y) % p == gcd</span><br><span class="line"></span><br><span class="line">    if gcd != 1:</span><br><span class="line">        # Either n is 0, or p is not a prime number.</span><br><span class="line">        raise ValueError(</span><br><span class="line">            &apos;&#123;&#125; has no multiplicative inverse &apos;</span><br><span class="line">            &apos;modulo &#123;&#125;&apos;.format(n, p))</span><br><span class="line">    else:</span><br><span class="line">        return x % p</span><br></pre></td></tr></table></figure>
 <h2><span id="fp上的椭圆曲线">𝔽p上的椭圆曲线</span></h2>
@@ -268,12 +268,24 @@
 </ul>
 <h2><span id="代数相加">代数相加</span></h2>
 <p><strong>计算点的加法的问题和上一节完全一样</strong>,只是我们需要在每个表达式后面加上“mod p”.因此,给P=(xP,yP),Q=(xQ,yQ)和R=(xR,yR),我们可以用如下的方法计算P+Q=−R:</p>
-
+<img src="/article/椭圆曲线-有限域上的离散对数问题/P+Q=−R.png">
 <p>如果P≠Q,斜率m可以如下表示:</p>
 <img src="/article/椭圆曲线-有限域上的离散对数问题/P!=Q.png">
 <p>另外,如果P=Q,我们有:</p>
-
-<p>等式并没有改变着并不是一个巧合.事实上,这些等式适用于所有的域,有限的或者无限的(除了𝔽2和𝔽3,这是特殊情况).现在我觉得我必须为这个事实提供一个理由.问题是:群理论的证明通常牵扯到复杂的数学概念.然而,我发现一个证明<a href="https://math.rice.edu/~friedl/papers/AAELLIPTIC.PDF" target="_blank" rel="noopener">(proof from Stefan Friedl)</a>只用到了初级概念.如果你对为什么这些等式适用于(几乎)所有域可以读一读这个.</p>
+<img src="/article/椭圆曲线-有限域上的离散对数问题/P=Q.png">
+<p>等式并没有改变着并不是一个巧合.事实上,这些等式适用于所有的域,有限的或者无限的(除了𝔽2和𝔽3,这是特殊情况).现在我觉得我必须为这个事实提供一个理由.问题是:群理论的证明通常牵扯到复杂的数学概念.然而,我发现一个证明(<a href="https://math.rice.edu/~friedl/papers/AAELLIPTIC.PDF" target="_blank" rel="noopener">proof from Stefan Friedl</a>)只用到了初级概念.如果你对为什么这些等式适用于(几乎)所有域,可以读一读这个.</p>
+<p>回到主题-我们没有定义几何方法:事实上,这里有一些问题.比如,在上一篇文章中,我们说要计算P+P我们需要获取曲线在P点的切线.但是一旦不连续,单词“切线”没有任何意义.我们能够解决这个问题,然后一个纯粹的几何方法仅仅会变得很复杂并且一点都不实用.</p>
+<p>相反,你可以使用<strong>我编写的计算点的加法的</strong>交互工具(<a href="https://cdn.rawgit.com/andreacorbellini/ecc/920b29a/interactive/modk-add.html" target="_blank" rel="noopener">interactive tool</a>).</p>
+<h2><span id="一个椭圆曲线群的阶">一个椭圆曲线群的阶</span></h2>
+<p>我们说一个定义在有限域上的椭圆曲线有有限个数量的点.我们需要回答的一个重要问题是:<strong>确切的说有多少个点?</strong></p>
+<p>首先,我们说一个群的点的数量可以被称为<strong>这个群的阶.</strong></p>
+<p>尝试0到p-1上所有x的可能值并不是计算点的数量的可行方法,这需要O§步,并且当p是很大的素数时这会变得“困难”.</p>
+<p>幸运的是,存在更快的算法来计算阶:<a href="https://en.wikipedia.org/wiki/Schoof%27s_algorithm" target="_blank" rel="noopener">Schoof’s algorithm</a>.我将不会深入这个算法的细节-重要的是它运行在多项式时间内,这就是我们需要的.</p>
+<h2><span id="标量乘法和循环子组">标量乘法和循环子组</span></h2>
+<h2><span id="子组顺序">子组顺序</span></h2>
+<h2><span id="找一个基点">找一个基点</span></h2>
+<h2><span id="离散对数">离散对数</span></h2>
+<h2><span id="下周更多">下周更多!</span></h2>
 
                 
 
