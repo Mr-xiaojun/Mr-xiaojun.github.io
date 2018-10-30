@@ -138,6 +138,13 @@
 
                         
                         <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -146,13 +153,6 @@
                         
                         <li>
                             <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -235,7 +235,26 @@
 </blockquote>
 <p>通过种子生成的曲线被认为是 <strong>可验证的随机数</strong>.用散列值来生成参数的准测被称为<a href="https://en.wikipedia.org/wiki/Nothing_up_my_sleeve_number" target="_blank" rel="noopener">nothing up my sleeve</a>,并且被普遍的用在密码学中.</p>
 <p>这种技巧应该给予一些保证,即 <strong>这个曲线没有被精心设计用来暴露一些漏洞给作者</strong>.事实上, 如果我和种子一起给你一个曲线,这意味着我并不能随心所欲的选择参数a和b,并且你应该相对的确定这个曲线不能被我用做特定目的的攻击.我为什么说“相对的”原因将在下一篇介绍.</p>
-<p>ANSI X9.62描述了一种标准的用来生成和检测随机曲线的算法,该算法基于<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" rel="noopener">SHA-1</a>.</p>
+<p>ANSI X9.62描述了一种标准的用来生成和检测随机曲线的算法,该算法基于<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" rel="noopener">SHA-1</a>.如果你好奇的话,你可以阅读这个算法,用于在<a href="http://www.secg.org/sec1-v2.pdf" target="_blank" rel="noopener"> a specification by SECG </a>上生成可验证的随机曲线(寻找“可验证的随机曲线和基点生成器”).</p>
+<p>我写了一个<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/verifyrandom.py" target="_blank" rel="noopener">小Python脚本</a> <strong>验证当前OpenSSl提供的所有随机曲线</strong>.我强烈建议你看看.</p>
+<h2><span id="椭圆曲线密码学">椭圆曲线密码学</span></h2>
+<p>花费了很长时间,但是最后我们到达了!因此,纯粹而简单:</p>
+<ol>
+<li><strong>私钥</strong>是一个从{1,…,n-1}(b是这个子群的阶)选取的随机整数.</li>
+<li><strong>公钥</strong>是点H=dG(G是子群的基点).<br>
+你明白了吗?如果我们知道了d和G(已经其他的域参数),得到H是“简单”的.但是如果我们知道了H和G, <strong>的到私钥d是“困难”的,因为这要求我们解决离散对数问题.</strong></li>
+</ol>
+<p>现在我们将要描述两个公钥算法,它们基于:ECDH(Elliptic curve Diffie-Hellman),用做加密,和ECDSA(Elliptic Curve Digital Signature Algorithm),用做数字签名.</p>
+<h2><span id="用ecdh加密">用ECDh加密</span></h2>
+<p>ECDH是<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="noopener">Diffie-Hellman algorithm</a>的一个变体.它实际上是一个密钥交换算法,而不是一个加密算法.这基本上意味着ECDH定义了(某种程度上)双方如何生成和交换密钥.实际上如何使用这个密钥加密数据取决于我们.</p>
+<p>它解决了如下问题:双方(通常是Alice和Bob)想安全的交换信息,但是第三方(中间人)可能会截获信息,但是不能机密信息.这是TLS的一个原理之一,仅仅给你一个例子.</p>
+<p>它是这样工作的:</p>
+<ol>
+<li>首先, **Alice和Bob生成了他们自己的公钥和私钥.**Alice有公钥私钥dA和公钥HA=dAG,Bob有dB和HB=dBG.注意Alice和Bob使用同样的域参数:同一个有限域上的同样的椭圆曲线的同一个基点G.</li>
+<li><strong>Alice和Bob在一个不可信的信道中交换他们的公钥HA和HB</strong>.中间人截获了公钥HA和HB,但是在不解决离散对数问题的情况下是无法算出dA和dB.</li>
+<li><strong>Alice计算出S=dAHB</strong>(用她自己的私钥和Bob的公钥), <strong>Bob计算出S=dBHA</strong>(用他私钥和Alice的公钥).主要Alice和Bob的H是相等的,事实上:</li>
+</ol>
+
 
                 
 
@@ -292,7 +311,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x57DF;&#x53C2;&#x6570;">&#x57DF;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x968F;&#x673A;&#x66F2;&#x7EBF;">&#x968F;&#x673A;&#x66F2;&#x7EBF;</span></span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x57DF;&#x53C2;&#x6570;">&#x57DF;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x968F;&#x673A;&#x66F2;&#x7EBF;">&#x968F;&#x673A;&#x66F2;&#x7EBF;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="&#x692D;&#x5706;&#x66F2;&#x7EBF;&#x5BC6;&#x7801;&#x5B66;">&#x692D;&#x5706;&#x66F2;&#x7EBF;&#x5BC6;&#x7801;&#x5B66;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="&#x7528;ecdh&#x52A0;&#x5BC6;">&#x7528;ECDh&#x52A0;&#x5BC6;</span></span></a></li></ol>
         
         </div>
       </aside>
