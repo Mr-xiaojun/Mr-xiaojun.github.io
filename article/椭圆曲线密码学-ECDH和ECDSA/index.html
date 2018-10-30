@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Archives - Mr小军 | Blog
+          椭圆曲线密码学:ECDH和ECDSA - Mr小军 | Blog
         
     </title>
 
-    <link rel="canonical" href="https://mysite/archive/">
+    <link rel="canonical" href="https://mysite/article/椭圆曲线密码学-ECDH和ECDSA/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/archive.jpg')
-            /*page*/
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
         
     }
     
@@ -83,10 +83,16 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>Archives</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Hey, this is archives</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>椭圆曲线密码学:ECDH和ECDSA</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mr小军 on
+                            2018-10-30
+                        </span>
                     </div>
                 
 
@@ -189,229 +195,199 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 归档列表 -->
-            
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-             <!-- 归档列表 -->
+                <p><strong>这期内容是ECC:基本介绍(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">ECC:a gentle introduction</a>)系列的第三篇.</strong></p>
+<p>在之前的内容中,我们介绍了(什么是椭圆曲线)[<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#elliptic-curves" target="_blank" rel="noopener">http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#elliptic-curves</a>]并且为了在椭圆曲线的点上做一些数学操作我们定义了一个 <strong>群公理</strong>然后我们 <strong>限定椭圆曲线到整数模一个素数的有限域</strong> .在这个限定下,我们介绍了椭圆曲线的点生成的循环子群并且介绍了术语 <strong>基点</strong>, <strong>阶</strong>和 <strong>辅助因子</strong>.</p>
+<p>最后,我们看到有限域上的标量惩罚是一个“简单”问题,而离散对数问题似乎是一个“难”问题.现在我们将要看到所有这些在密码学中的应用.</p>
+<h2><span id="域参数">域参数</span></h2>
+<p>我们的椭圆曲线算法运行在有限域上的椭圆曲线的循环子群中.因此我们的算法需要下面的参数:</p>
+<ul>
+<li><strong>素数P</strong>用来指定有限域的大小</li>
+<li>椭圆曲线等式的<strong>系数a和b</strong></li>
+<li><strong>基点G</strong>用来生成我们的子群</li>
+<li><strong>子群的阶n</strong></li>
+<li><strong>子群的辅助因子h</strong></li>
+</ul>
+<p>结论是,我们的算法的 <strong>域参数</strong>是一个六元组(p,a,b,G,n,h).</p>
+<h2><span id="随机曲线">随机曲线</span></h2>
+<p>当我说离散对数问题是“困难”的,其实并不完全正确.存在 <strong>一些椭圆曲线尤其脆弱</strong>并且允许用使用特定目的的算法来有效的解决离散对数问题.例如,所有满足p=hn(这是有限域的阶等于椭圆曲线的阶)的曲线对于Smart的攻击<a href="http://interact.sagemath.org/edu/2010/414/projects/novotney.pdf" target="_blank" rel="noopener">Smart’s attack</a>都很脆弱,这个可以被用来在传统计算机上多项式时间内解决离散对数问题.</p>
+<p>现在,假设我给你一个椭圆曲线的域参数.有可能我发现了一个其他人不知道的新的脆弱的曲线,并且可能我已经在给你的曲线构造了一个“快”算法来解决离散对数问题.我如何说服你相信,我并不知道这个曲线的任何弱点. <strong>我如何想你保证这个曲线是“安全的”(这意味着我不能利用它发起特定目的的攻击)?</strong></p>
+<p>为了尝试解决这个问题,有时候我们有一个额外的域参数:种子 <strong>S</strong>.这是一个随机数,用来生成系数a和b,或者基点G,或者两者一起.这些参数是通过计算种子 <strong>S</strong>的散列值来生成的.散列值,我们都知到,是计算“简单”,但是逆推“困难”的.</p>
+<img src="/article/椭圆曲线密码学-ECDH和ECDSA/图1.png">
+<blockquote>
+<p>如何从种子生成随机曲线的一个简单草图:一个随机数的散列值被用来计算曲线的不同参数.</p>
+</blockquote>
+<img src="/article/椭圆曲线密码学-ECDH和ECDSA/图2.png">
+<blockquote>
+<p>如果我们想欺骗并且从域参数构造出一个种子,我们必须解决一个“难”的问题:散列值反转</p>
+</blockquote>
+<p>通过种子生成的曲线被认为是 <strong>可验证的随机数</strong>.用散列值来生成参数的准测被称为<a href="https://en.wikipedia.org/wiki/Nothing_up_my_sleeve_number" target="_blank" rel="noopener">nothing up my sleeve</a>”,并且被普遍的用在密码学中.</p>
+<p>这种技巧应该给予一些保证,即 <strong>这个曲线没有被精心设计用来暴露一些漏洞给作者</strong>.事实上, 如果我和种子一起给你一个曲线,这意味着我并不能随心所欲的选择参数a和b,并且你应该相对的确定这个曲线不能被我用做特定目的的攻击.我为什么说“相对的”原因将在下一篇介绍.</p>
+<p>ANSI X9.62描述了一种标准的用来生成和检测随机曲线的算法,该算法基于<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" rel="noopener">SHA-1</a>.</p>
 
-            
-            <div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2018">
-                    <span class="tag-text">2018</span>
-                </span>
-                <ul>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    10-30
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/椭圆曲线密码学-ECDH和ECDSA/" style="color: #0085a1">
-                        <span>
-                            椭圆曲线密码学:ECDH和ECDSA
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    10-26
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/椭圆曲线-有限域上的离散对数问题/" style="color: #0085a1">
-                        <span>
-                            椭圆曲线:有限域上的离散对数问题
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    10-26
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/椭圆曲线密码学简介/" style="color: #0085a1">
-                        <span>
-                            椭圆曲线密码学简介
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    10-16
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/这是第一篇/" style="color: #0085a1">
-                        <span>
-                            这是第一篇
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/椭圆曲线-有限域上的离散对数问题/" data-toggle="tooltip" data-placement="top" title="椭圆曲线:有限域上的离散对数问题">Next Post &rarr;</a>
+                        </li>
+                    
                 </ul>
-            </div>
-            
-
-
-        </div>
-    </div>
-</div>
 
                 <br>
-
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYzMy8xNzE2MA=="></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x57DF;&#x53C2;&#x6570;">&#x57DF;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x968F;&#x673A;&#x66F2;&#x7EBF;">&#x968F;&#x673A;&#x66F2;&#x7EBF;</span></span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
+
+
+
+
+
+    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
     
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
-
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
-
-        
-            <p>Stay hungry,Stay foolish</p>
-        
-
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-
-            
-
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/Mr-xiaojun">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-        <hr>
+           if (typeof LivereTower === 'function') { return; }
     
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/椭圆曲线密码学-ECDH和ECDSA/">椭圆曲线密码学:ECDH和ECDSA</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线-有限域上的离散对数问题/">椭圆曲线:有限域上的离散对数问题</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线密码学简介/">椭圆曲线密码学简介</a>
-        </li>
-      
-        <li>
-          <a href="/article/这是第一篇/">这是第一篇</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
     
-        <!-- Friends Blog -->
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- 来必力City版 公共JS代码 end -->
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
 
-    
-</ul>
 
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
-    </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
