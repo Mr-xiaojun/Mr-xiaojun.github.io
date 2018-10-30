@@ -233,7 +233,7 @@
 <blockquote>
 <p>如果我们想欺骗并且从域参数构造出一个种子,我们必须解决一个“难”的问题:散列值反转</p>
 </blockquote>
-<p>通过种子生成的曲线被认为是 <strong>可验证的随机数</strong>.用散列值来生成参数的准测被称为<a href="https://en.wikipedia.org/wiki/Nothing_up_my_sleeve_number" target="_blank" rel="noopener">nothing up my sleeve</a>”,并且被普遍的用在密码学中.</p>
+<p>通过种子生成的曲线被认为是 <strong>可验证的随机数</strong>.用散列值来生成参数的准测被称为<a href="https://en.wikipedia.org/wiki/Nothing_up_my_sleeve_number" target="_blank" rel="noopener">nothing up my sleeve</a>,并且被普遍的用在密码学中.</p>
 <p>这种技巧应该给予一些保证,即 <strong>这个曲线没有被精心设计用来暴露一些漏洞给作者</strong>.事实上, 如果我和种子一起给你一个曲线,这意味着我并不能随心所欲的选择参数a和b,并且你应该相对的确定这个曲线不能被我用做特定目的的攻击.我为什么说“相对的”原因将在下一篇介绍.</p>
 <p>ANSI X9.62描述了一种标准的用来生成和检测随机曲线的算法,该算法基于<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" rel="noopener">SHA-1</a>.</p>
 
