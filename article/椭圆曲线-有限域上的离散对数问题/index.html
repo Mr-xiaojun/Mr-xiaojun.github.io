@@ -210,7 +210,7 @@
 
                 <p>这期内容是ECC:基本介绍(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">ECC: a gentle introduction.</a>)系列的第二篇.</p>
 <p>在上一篇文章,我们知道了怎样利用椭圆曲线在实数域上定义一个群.特别的,我们定义了点的加法(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#group-law" target="_blank" rel="noopener">point addition</a>)规则:给定三个对齐点,它们的和为0(P + Q +R = 0).我们衍生出了计算点的加法的代数方法(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#geometric-addition" target="_blank" rel="noopener">geometric method </a>)和几何方法(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#algebraic-addition" target="_blank" rel="noopener">algebraic method</a>).</p>
-<p>我们还介绍了标量乘法**(nP = P + P + … + P)**,并且我们还找出了计算标量乘法的“简单”方法:<strong>加倍(double)<strong>与</strong>相加(add)</strong></p>
+<p>我们还介绍了标量乘法 <strong>(nP = P + P + … + P)</strong>,并且我们还找出了计算标量乘法的“简单”方法:<strong>加倍(double)<strong>与</strong>相加(add)</strong></p>
 <p>现在我们要<strong>限定椭圆曲线到有限域上</strong>,而不是实数集合,我们看看会有哪些变化</p>
 <h2><span id="整数模p域">整数模P域</span></h2>
 <p>首先,一个有限域就是一个拥有有限个元素的集合.整数模P就是一个有限域的例子,这里P是一个素数.通常表示为ℤ/p,GF§或者𝔽p.我们将使用最后的这种标记.</p>
@@ -354,16 +354,15 @@ kP=(kmod5)P</p>
 </ol>
 <p>注意,这个算法只有在n是素数时才有效.如果n不是一个素数,那么G的阶可能是n的一个因子.</p>
 <h2><span id="离散对数">离散对数</span></h2>
-<p>正如我们在连续的椭圆曲线做的那样,我们现在要讨论这个问题:<strong>如果我们知道P和Q,满足Q=Pk的k是什么?</strong></p>
-<p>这个问题是已知的椭圆曲线上的<strong>离散对数问题</strong>,这被确信是一个在经典计算机中不能被多项式时间内解决的“难“题.</p>
-<h2><span id="下周更多">下周更多!</span></h2>
-<p>今天就到这里!我真心希望你喜欢这篇文章.如果不喜欢你可以留下评论.</p>
-<p>下周的文章将是这个系列的第三篇并且是关于ECC算法:密钥对的生成,ECDH和ECDSA.这将是这一系列文章中最有意思的一篇.不要错过!然而,对这个确信没有数学证明.</p>
+<p>正如我们在连续的椭圆曲线做的那样,我们现在要讨论这个问题:**如果我们知道P和Q,满足Q=Pk的k是什么?**然而,对这个确信没有数学证明.</p>
 <p>这个问题和其他密码学系统中使用的离散对数问题类似,例如数字签名算法(DSA),Diffie-Hellman密钥交换(D-H),和ElGamal算法-它们有一样的名字并不是巧合.不同点是,对于这些算法,我们使用模数求幂而不是标量乘法.它们的离散对数问题可以表述如下:如果我们一直a和b,满足b=a^kmod p?的k是什么</p>
 <p>这些问题都是离散的因为它们包含有限的集合(更精确的,循环子群).<br>
 并且它们是“对数”因为它们和平常的对数类似.</p>
 <p>让ECC令人感兴趣的是,目前,椭圆曲线的离散对数问题相比于其他的密码学系统中的类似的问题更加“困难”.这意味着我们需要更少子节的k去实现和其他密码学系统同等级的安全水平,正如我们将在第四篇和最后一篇要深入介绍的(译者注:应该是第三篇和最后一篇,作者写错了).</p>
-<hr>
+<p>这个问题是已知的椭圆曲线上的<strong>离散对数问题</strong>,这被确信是一个在经典计算机中不能被多项式时间内解决的“难“题.</p>
+<h2><span id="下周更多">下周更多!</span></h2>
+<p>今天就到这里!我真心希望你喜欢这篇文章.如果不喜欢你可以留下评论.</p>
+<h2><span id="下周的文章将是这个系列的第三篇并且是关于ecc算法密钥对的生成ecdh和ecdsa这将是这一系列文章中最有意思的一篇不要错过">下周的文章将是这个系列的第三篇并且是关于ECC算法:密钥对的生成,ECDH和ECDSA.这将是这一系列文章中最有意思的一篇.不要错过!</span></h2>
 <p>第一篇终于翻译完了,好多术语,翻译起来有些吃力,可能不完全精确.博主力求能够以作者表述的风格翻译,但是能力有限,不准确的地方望指正!<br>
 翻译的文章可以随意转载,但是请注明原翻译作者:Mr小军;以及原翻译博客地址:<a href="https://mr-xiaojun.github.io/article/%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF-%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">https://mr-xiaojun.github.io/article/椭圆曲线-有限域上的离散对数问题/</a><br>
 原文地址:<a href="http://andrea.corbellini.name/2015/05/23/elliptic-curve-cryptography-finite-fields-and-discrete-logarithms/" target="_blank" rel="noopener">http://andrea.corbellini.name/2015/05/23/elliptic-curve-cryptography-finite-fields-and-discrete-logarithms/</a></p>
