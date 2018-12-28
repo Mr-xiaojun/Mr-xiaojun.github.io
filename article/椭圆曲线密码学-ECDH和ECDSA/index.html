@@ -268,13 +268,13 @@
 <blockquote>
 <p>Diffie-Hellman密钥交换：Alice和Bob能够“轻易”计算出共享密钥，中间人需要解决“困难”的问题。</p>
 </blockquote>
-<p>Diffie-Hellman问题背后的原理在一个不错的视频<a href="https://www.youtube.com/watch?v=YEBfamv-_do#t=02m37s" target="_blank" rel="noopener"> YouTube video by Khan Academy</a>中有很解释，视频后面解释了应用于模数运算的Diffie-Hellman算法（而不是椭圆曲线）.</p>
+<p>Diffie-Hellman问题背后的原理在一个不错的视频（<a href="https://www.youtube.com/watch?v=YEBfamv-_do#t=02m37s" target="_blank" rel="noopener"> YouTube video by Khan Academy</a>）中有很解释，视频后面解释了应用于模数运算的Diffie-Hellman算法（而不是椭圆曲线）.</p>
 <p>椭圆曲线上的Diffie-Hellman问题别假设为一个“困难“问题。它被认为是和离散对数问题一样“困难”，虽然没有数学证明。我们能确定的是它不能“更困难”，因为解决对数问题是解决Diffie-Hellman的一个方法。</p>
 <p><strong>现在Alic和Bob获得了共享的密钥，他们可以用对称加密交换数据了。</strong></p>
 <p>例如，他们可以使用S的坐标x作为加密的密钥利用加密算法AES或者3DES来加密消息。这或多或少就是TLS做的，不同点是TLS把x坐标和一个和连接相关的数字连接起来，并且计算了它们组成的字节的散列值。</p>
 <h2><span id="玩转ecdh">玩转ECDH</span></h2>
-<p>我写了另一个<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdhe.py" target="_blank" rel="noopener"> another Python script</a> <strong>来计算椭圆曲线上的公钥/私钥和共享密钥。</strong></p>
-<p>不像目前为止我们看到的其他例子，这个脚本使用了标准曲线，而不是一个小域上简单椭圆曲线。我选的曲线是secp256k1，来自 <a href="http://www.secg.org/" target="_blank" rel="noopener">SECG</a> (&quot;椭圆曲线组的标准&quot;由 <a href="https://www.certicom.com/" target="_blank" rel="noopener">Certicom</a> 创立)<a href="https://en.bitcoin.it/wiki/Secp256k1" target="_blank" rel="noopener"> This same curve is also used by Bitcoin</a> 这个曲线也被用到了比特币用来做数字签名。这是域参数：</p>
+<p>我写了另一个脚本（<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdhe.py" target="_blank" rel="noopener"> another Python script</a>） <strong>来计算椭圆曲线上的公钥/私钥和共享密钥。</strong></p>
+<p>不像目前为止我们看到的其他例子，这个脚本使用了标准曲线，而不是一个小域上简单椭圆曲线。我选的曲线是secp256k1，来自 <a href="http://www.secg.org/" target="_blank" rel="noopener">SECG</a> (&quot;椭圆曲线组的标准&quot;由 <a href="https://www.certicom.com/" target="_blank" rel="noopener">Certicom</a> 创立) 这个曲线也被用到了比特币中（<a href="https://en.bitcoin.it/wiki/Secp256k1" target="_blank" rel="noopener"> This same curve is also used by Bitcoin</a>）用来做数字签名。这是域参数：</p>
 <ul>
 <li>p  = 0xffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe fffffc2f</li>
 <li>a=0</li>
@@ -300,8 +300,8 @@ Shared secret: (0x3e2ffbc3aa8a2836c1689e55cd169ba638b58a3a18803fcf7de153525b28c3
 <p>例如ECDHE用在TLS中，客户端和服务端在连接建立时各自生成自己的公私钥对。然后密钥用TLS证书签名（用来鉴定）后在两端交换。</p>
 <h2><span id="用ecdsa签名">用ECDSA签名</span></h2>
 <p>方案如下：<strong>Alice想要用她的私钥（dA）签名一段消息</strong>，<strong>Bob想要用Alice的公钥（HA）验证签名</strong>。除了Alice其他人都不能创建一个合法的签名。任何人都能验证这个签名。</p>
-<p>同样，Alice和Bob使用同样的域参数。我们将要看到的算法是ECDSA,<a href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank" rel="noopener">Digital Signature Algorithm</a>数字签名算法在椭圆曲线中应用的一个变种。</p>
-<p>ECDSA作用在消息的散列值上，而不是消息本省。散列函数的选择取决于我们自己，但是显而易见应该选择一个加密安全的散列函数<a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function" target="_blank" rel="noopener">cryptographically-secure hash function</a>.<strong>消息的散列值应该被截断</strong>以便它的比特长度和n一样。（子群的阶）。<strong>被截断的散列值是一个整数被表示为z。</strong></p>
+<p>同样，Alice和Bob使用同样的域参数。我们将要看到的算法是ECDSA,是数字签名算法（<a href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank" rel="noopener">Digital Signature Algorithm</a>）在椭圆曲线中应用的一个变种。</p>
+<p>ECDSA作用在消息的散列值上，而不是消息本省。散列函数的选择取决于我们自己，但是显而易见应该选择一个加密安全的散列函数（<a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function" target="_blank" rel="noopener">cryptographically-secure hash function</a>）.<strong>消息的散列值应该被截断</strong>以便它的比特长度和n一样。（子群的阶）。<strong>被截断的散列值是一个整数被表示为z。</strong></p>
 <p>Alice执行用来签名消息的算法如下：</p>
 <ol>
 <li>随机从{1,…n-1}选取一个整数（这里n依然是子群的阶）。</li>
