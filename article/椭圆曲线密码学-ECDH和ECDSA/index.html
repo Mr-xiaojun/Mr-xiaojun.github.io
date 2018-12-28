@@ -336,8 +336,47 @@ Shared secret: (0x3e2ffbc3aa8a2836c1689e55cd169ba638b58a3a18803fcf7de153525b28c3
 <p>前面，我们定义s=k^-1(z+rdA) mod n。等式两边同时乘以k除以s，我们得到：</p>
 
 <p>**这个和我们第二步用签名构造算法得到的P是相等的！**当构造签名和验证签名时我们用一组不同的等式计算出了相同的P。这就是为什么算法时正确的。</p>
-<h2><span id="玩转ecdsa">玩转ECDSA</span></h2>
-<p>累了，今天就到这里吧！！！！！！！！！！！</p>
+<h3><span id="玩转ecdsa">玩转ECDSA</span></h3>
+<p>当然，我写了一个脚本（<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdsa.py" target="_blank" rel="noopener">a Python script </a>）<strong>来计算签名和签名验证</strong>。代码共享了ECDH脚本的一些模块，尤其的域参数和公钥/私钥对的计算。</p>
+<p>它的输出像下面这样：</p>
+<blockquote>
+<p>Curve: secp256k1<br>
+Private key: 0x9f4c9eb899bd86e0e83ecca659602a15b2edb648e2ae4ee4a256b17bb29a1a1e<br>
+Public key: (0xabd9791437093d377ca25ea974ddc099eafa3d97c7250d2ea32af6a1556f92a, 0x3fe60f6150b6d87ae8d64b78199b13f26977407c801f233288c97ddc4acca326)</p>
+</blockquote>
+<blockquote>
+<p>Message: b’Hello!'<br>
+Signature: (0xddcb8b5abfe46902f2ac54ab9cd5cf205e359c03fdf66ead1130826f79d45478, 0x551a5b2cd8465db43254df998ba577cb28e1ee73c5530430395e4fba96610151)<br>
+Verification: signature matches</p>
+</blockquote>
+<blockquote>
+<p>Message: b’Hi there!'<br>
+Verification: invalid signature</p>
+</blockquote>
+<blockquote>
+<p>Message: b’Hello!'<br>
+Public key: (0xc40572bb38dec72b82b3efb1efc8552588b8774149a32e546fb703021cf3b78a, 0x8c6e5c5a9c1ea4cad778072fe955ed1c6a2a92f516f02cab57e0ba7d0765f8bb)<br>
+Verification: invalid signature</p>
+</blockquote>
+<p>正如你看到的，脚本首先签名了一段信息（&quot;Hello&quot;的字节串），然后验证了签名。之后，尝试用相同的签名去验证另一条消息（“Hi there”），验证失败。最后，它尝试用签名验证正确的消息，但是使用另一个随机的公钥，验证失败。</p>
+<h2><span id="k的重要性">k的重要性</span></h2>
+<p>当我们生成ECDSA签名，确保机密的k真的保密很重要。如果我们对所有签名使用同样的k，或者如果我们的随机数生成器在某些方面可预测，**<em>一种攻击能够找出私钥！</em></p>
+<p>这是索尼几年前犯的一个错误（<a href="http://www.bbc.com/news/technology-12116051" target="_blank" rel="noopener">This is the kind of mistake made by Sony a few years ago</a>）.基本上，PlayStation 3游戏机只能运行ECDSA签名的游戏。这样，如果我想为PlayStation 3开发一个新游戏，在没有索尼的签名的情况下我没办法把它发布出去。问题是：索尼所有的签名都是用用一个静态的k构造的。</p>
+<p>（显然索尼的随机数生成器受了<a href="https://xkcd.com/221/" target="_blank" rel="noopener">XKCD</a>和<a href="http://dilbert.com/strip/2001-10-25" target="_blank" rel="noopener">Dilbert</a>的启发）</p>
+<p>这种情况下，只要购买两款索尼签名的游戏我们就能够很容易的恢复出私钥ds，提取它们的散列值（z1和z2）和签名((r1,s1)和(r2,s2))，以及域参数。以下是如何操作：</p>
+<ul>
+<li>首先，注意r1=r2(因为r=xp mod n，P=kG对每一个签名都是一样的).</li>
+<li>考虑到(s1 - s2)mod n = k^-1(z1 -z2) mod n(这个结果可以直接由s的等式得出).</li>
+<li>现在等式两边同时乘以k： k(s1−s2) mod n= (z1−z2) mod n.</li>
+<li>除以(s1 -s2)得到k=(z1−z2)(s1−s2)^-1 mod n.<br>
+最后一个等式能够让我们仅仅使用两个散列值和它们对应的签名计算k。现在我们根据s的等式提取出私钥：</li>
+</ul>
+<center>s=k^-1(z+rds) mod n => ds=r^-1(sk-z) mod n</center>
+一些情况下如果k不是静态的但是是可预测的，同样的技术也能使用。
+<h2><span id="周末愉快">周末愉快</span></h2>
+<p>我真心希望你们能喜欢我写的这些。和往常一样，毫不犹豫的留下你们的评论，或者需要任何帮助可以戳我。（译者注：怎么戳？？？）</p>
+<p>下周我将发布第四篇也就是这个系列的最后一篇文章。它将涉及解决离散对数问题的技术，椭圆曲线密码学的一些重要问题，以及ECC和RSA的对比。不要错过哦！！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">哇，翻译真心比码代码累呀！！，尤其涉及到很多专业术语要翻译起来就更不轻松。可能有一些地方不够准确，还有可能会出现错字。没有经过任何人校验，凑合着看吧！有人发现错误可以留言告诉译者修改！</span><br></pre></td></tr></table></figure>
 
                 
 
@@ -394,7 +433,7 @@ Shared secret: (0x3e2ffbc3aa8a2836c1689e55cd169ba638b58a3a18803fcf7de153525b28c3
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x57DF;&#x53C2;&#x6570;">&#x57DF;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x968F;&#x673A;&#x66F2;&#x7EBF;">&#x968F;&#x673A;&#x66F2;&#x7EBF;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="&#x692D;&#x5706;&#x66F2;&#x7EBF;&#x5BC6;&#x7801;&#x5B66;">&#x692D;&#x5706;&#x66F2;&#x7EBF;&#x5BC6;&#x7801;&#x5B66;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="&#x7528;ecdh&#x52A0;&#x5BC6;">&#x7528;ECDH&#x52A0;&#x5BC6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="&#x73A9;&#x8F6C;ecdh">&#x73A9;&#x8F6C;ECDH</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text"><span id="&#x77ED;&#x6682;ecdh">&#x77ED;&#x6682;ECDH</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><span id="&#x7528;ecdsa&#x7B7E;&#x540D;">&#x7528;ECDSA&#x7B7E;&#x540D;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text"><span id="&#x9A8C;&#x8BC1;&#x7B7E;&#x540D;">&#x9A8C;&#x8BC1;&#x7B7E;&#x540D;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><span id="&#x7B97;&#x6CD5;&#x7684;&#x6B63;&#x786E;&#x6027;">&#x7B97;&#x6CD5;&#x7684;&#x6B63;&#x786E;&#x6027;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><span id="&#x73A9;&#x8F6C;ecdsa">&#x73A9;&#x8F6C;ECDSA</span></span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x57DF;&#x53C2;&#x6570;">&#x57DF;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x968F;&#x673A;&#x66F2;&#x7EBF;">&#x968F;&#x673A;&#x66F2;&#x7EBF;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="&#x692D;&#x5706;&#x66F2;&#x7EBF;&#x5BC6;&#x7801;&#x5B66;">&#x692D;&#x5706;&#x66F2;&#x7EBF;&#x5BC6;&#x7801;&#x5B66;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="&#x7528;ecdh&#x52A0;&#x5BC6;">&#x7528;ECDH&#x52A0;&#x5BC6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="&#x73A9;&#x8F6C;ecdh">&#x73A9;&#x8F6C;ECDH</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text"><span id="&#x77ED;&#x6682;ecdh">&#x77ED;&#x6682;ECDH</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><span id="&#x7528;ecdsa&#x7B7E;&#x540D;">&#x7528;ECDSA&#x7B7E;&#x540D;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text"><span id="&#x9A8C;&#x8BC1;&#x7B7E;&#x540D;">&#x9A8C;&#x8BC1;&#x7B7E;&#x540D;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><span id="&#x7B97;&#x6CD5;&#x7684;&#x6B63;&#x786E;&#x6027;">&#x7B97;&#x6CD5;&#x7684;&#x6B63;&#x786E;&#x6027;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text"><span id="&#x73A9;&#x8F6C;ecdsa">&#x73A9;&#x8F6C;ECDSA</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><span id="k&#x7684;&#x91CD;&#x8981;&#x6027;">k&#x7684;&#x91CD;&#x8981;&#x6027;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">9.</span> <span class="toc-nav-text"><span id="&#x5468;&#x672B;&#x6109;&#x5FEB;">&#x5468;&#x672B;&#x6109;&#x5FEB;</span></span></a></li></ol>
         
         </div>
       </aside>
