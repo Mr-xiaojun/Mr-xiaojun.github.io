@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          About - Mr小军 | Blog
+          非对称加密算法RSA - Mr小军 | Blog
         
     </title>
 
-    <link rel="canonical" href="https://mysite/about/">
+    <link rel="canonical" href="https://mysite/article/非对称加密算法RSA/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/about.jpg')
-            /*page*/
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
         
     }
     
@@ -83,10 +83,16 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>About</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">技术只是生活的一部分</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>非对称加密算法RSA</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mr小军 on
+                            2019-01-24
+                        </span>
                     </div>
                 
 
@@ -189,202 +195,190 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <h3><span id="一句话">一句话</span></h3>
-<blockquote>
-<p>这个世界真神奇</p>
-</blockquote>
-<h3><span id="关于我">关于我</span></h3>
-<blockquote>
-<p>喜欢技术,对很多问题都感兴趣!</p>
-</blockquote>
-<h3><span id="兴趣方向">兴趣方向</span></h3>
-<blockquote>
-<p>移动研发,信息安全</p>
-</blockquote>
-<h3><span id="联系我">联系我</span></h3>
-<blockquote>
-<p>Email: <a href="http://xiaojun-ma.qq.com" target="_blank" rel="noopener">xiaojun-ma.qq.com</a></p>
-</blockquote>
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
+                <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<h2><span id="rsa的诞生">RSA的诞生</span></h2>
+<p>在人类熟练使用文字，飞鸽传书时代就已经有密码学的影子，古代为了防止一些政治军事等重要信件被敌人截取发明了古典密码学。古典密码学基本上没有任何信息理论，只是人们根据经验对文字的一种简单混淆。常用的古典密码学基本包含以下几种：</p>
+<ul>
+<li>单表替换加密（Monoalphabetic Cipher）</li>
+<li>多表替换加密（Polyalphabetic Cipher）</li>
+<li>其他奇奇怪怪的加密方式</li>
+</ul>
+<p>现代密码学起源于二十世纪中期，1949年香农（C.E.Shannon）发表了题为《保密系统的通信理论》的经典论文正式标志着现代密码学的开始。早期的现代密码学的加密方式是：甲方用一个密钥进行加密，乙方收到密文后用相同的密钥进行解密。这就是我们熟悉的对称加密。然而对称加密有一个巨大的问题：甲乙双方如何通过网络协商出一个完全一致的对称密钥？</p>
+<p>直到1976年，两位美国计算机学家Whitfield Diffie 和 Martin Hellman提出了非对称加密的思想，被称为“Diffie-Hellman密钥交换算法”。这种算法提出：我们可以不使用直接传输对称密钥的方式来协商加解密的密钥。<br>
+受此想法的启发，1977年三位数学家Rivest、Shamir 和 Adleman 设计了一种算法，可以实现非对称加密。此方法以这三位数学家的名字首字母命名，这就是大名鼎鼎的RSA算法！</p>
+<h2><span id="rsa为何如此重要">RSA为何如此重要？</span></h2>
+<p>非对称密钥是现代密码学的基石，被应用于各个领域。可以毫不夸张的说，没有非对称加密现代互联网的发展将大大受限，其规模将远远不及现在，我们常用户网络支付，在线银行，甚至在线聊天等都不会存在。而RSA做为早期出现的非对称加密在网络安全中扮演着无可替代的角色，是信息安全的半壁江山！</p>
+<h2><span id="rsa基本原理">RSA基本原理</span></h2>
+<h3><span id="公私钥初始化">公私钥初始化</span></h3>
+<ol>
+<li>随机生成两个大素数\(P\)和\(Q\),并计算$$N = P*Q$$</li>
+<li>计算$$r = φ(N) = φ(P)φ(Q) = (P-1)(Q-1)$$</li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/应用密码学都研究哪些内容？/" data-toggle="tooltip" data-placement="top" title="应用密码学都研究哪些内容？">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
 
                 <br>
-
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
                 
-                    <hr>
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYzMy8xNzE2MA=="></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="rsa&#x7684;&#x8BDE;&#x751F;">RSA&#x7684;&#x8BDE;&#x751F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="rsa&#x4E3A;&#x4F55;&#x5982;&#x6B64;&#x91CD;&#x8981;">RSA&#x4E3A;&#x4F55;&#x5982;&#x6B64;&#x91CD;&#x8981;&#xFF1F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="rsa&#x57FA;&#x672C;&#x539F;&#x7406;">RSA&#x57FA;&#x672C;&#x539F;&#x7406;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><span id="&#x516C;&#x79C1;&#x94A5;&#x521D;&#x59CB;&#x5316;">&#x516C;&#x79C1;&#x94A5;&#x521D;&#x59CB;&#x5316;</span></span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
 
                     
-
-                    
-
-                    
-                        <!-- disqus 评论框 start -->
-                        <div class="comment">
-                            <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYzMy8xNzE2MA=="></div>
-                        </div>
-                        <!-- disqus 评论框 end -->
-                    
-
-                    
-
-                    
-
-                    
-                    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
-                    <script type="text/javascript">
-                       (function(d, s) {
-                           var j, e = d.getElementsByTagName(s)[0];
-                    
-                           if (typeof LivereTower === 'function') { return; }
-                    
-                           j = d.createElement(s);
-                           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-                           j.async = true;
-                    
-                           e.parentNode.insertBefore(j, e);
-                       })(document, 'script');
-                    </script>
-                    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-                    <!-- 来必力City版 公共JS代码 end -->
-                    
-
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
+
+
+
+
+
+    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
     
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
-
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
-
-        
-            <p>Stay hungry,Stay foolish</p>
-        
-
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-
-            
-
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/Mr-xiaojun">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-        <hr>
+           if (typeof LivereTower === 'function') { return; }
     
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/非对称加密算法RSA/">非对称加密算法RSA</a>
-        </li>
-      
-        <li>
-          <a href="/article/应用密码学都研究哪些内容？/">应用密码学都研究哪些内容？</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线密码学-安全破解以及和RSA的对比/">椭圆曲线密码:安全破解以及和RSA的对比</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线密码学-ECDH和ECDSA/">椭圆曲线密码学:ECDH和ECDSA</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线-有限域上的离散对数问题/">椭圆曲线:有限域上的离散对数问题</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
     
-        <!-- Friends Blog -->
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- 来必力City版 公共JS代码 end -->
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
 
-    
-</ul>
 
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
-    </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->

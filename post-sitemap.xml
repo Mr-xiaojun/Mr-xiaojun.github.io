@@ -7,8 +7,16 @@
     </url>
 
     <url>
+        <loc>https://mysite/article/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95RSA/</loc>
+        <lastmod>2019-01-24T10:45:15.230Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://mysite/article/%E5%BA%94%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%BD%E7%A0%94%E7%A9%B6%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9%EF%BC%9F/</loc>
-        <lastmod>2019-01-14T02:49:57.358Z</lastmod>
+        <lastmod>2019-01-14T02:51:34.197Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
