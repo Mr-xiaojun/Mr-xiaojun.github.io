@@ -138,14 +138,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -211,17 +211,21 @@
                 <p><strong>这期内容是ECC:基本介绍(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">ECC:a gentle introduction</a>)系列的第三篇.</strong></p>
 <p>在之前的内容中,我们介绍了<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#elliptic-curves" target="_blank" rel="noopener">什么是椭圆曲线</a>并且为了在椭圆曲线的点上做一些数学运算我们定义了一个 <strong>群公理</strong>然后我们 <strong>限定椭圆曲线到整数模一个素数的有限域</strong> .在这个限定下,我们介绍了椭圆曲线的点生成的循环子群并且介绍了术语 <strong>基点</strong>, <strong>阶</strong>和 <strong>辅助因子</strong>.</p>
 <p>最后,我们看到有限域上的标量惩罚是一个“简单”问题,而离散对数问题似乎是一个“难”问题.现在我们将要看到所有这些在密码学中的应用.</p>
-<h2><span id="域参数">域参数</span></h2><p>我们的椭圆曲线算法运行在有限域上的椭圆曲线的循环子群中.因此我们的算法需要下面的参数:</p>
+<h2><span id="域参数">域参数</span></h2>
+<p>我们的椭圆曲线算法运行在有限域上的椭圆曲线的循环子群中.因此我们的算法需要下面的参数:</p>
 <ul>
 <li><strong>素数P</strong>用来指定有限域的大小</li>
 <li>椭圆曲线等式的<strong>系数a和b</strong></li>
 <li><strong>基点G</strong>用来生成我们的子群</li>
 <li><strong>子群的阶n</strong></li>
-<li><strong>子群的辅助因子h</strong><br>结论是,我们的算法的 <strong>域参数</strong>是一个六元组(p,a,b,G,n,h).</li>
+<li><strong>子群的辅助因子h</strong><br>
+结论是,我们的算法的 <strong>域参数</strong>是一个六元组(p,a,b,G,n,h).</li>
 </ul>
-<h2><span id="随机曲线">随机曲线</span></h2><p>当我说离散对数问题是“困难”的,其实并不完全正确.存在 <strong>一些椭圆曲线尤其脆弱</strong>并且允许用使用特定目的的算法来有效的解决离散对数问题.例如,所有满足p=hn(这是有限域的阶等于椭圆曲线的阶)的曲线对于Smart的攻击<a href="http://interact.sagemath.org/edu/2010/414/projects/novotney.pdf" target="_blank" rel="noopener">Smart’s attack</a>都很脆弱,这个可以被用来在传统计算机上多项式时间内解决离散对数问题.</p>
+<h2><span id="随机曲线">随机曲线</span></h2>
+<p>当我说离散对数问题是“困难”的,其实并不完全正确.存在 <strong>一些椭圆曲线尤其脆弱</strong>并且允许用使用特定目的的算法来有效的解决离散对数问题.例如,所有满足p=hn(这是有限域的阶等于椭圆曲线的阶)的曲线对于Smart的攻击<a href="http://interact.sagemath.org/edu/2010/414/projects/novotney.pdf" target="_blank" rel="noopener">Smart’s attack</a>都很脆弱,这个可以被用来在传统计算机上多项式时间内解决离散对数问题.</p>
 <p>现在,假设我给你一个椭圆曲线的域参数.有可能我发现了一个其他人不知道的新的脆弱的曲线,并且可能我已经在给你的曲线构造了一个“快”算法来解决离散对数问题.我如何说服你相信,我并不知道这个曲线的任何弱点. <strong>我如何想你保证这个曲线是“安全的”(这意味着我不能利用它发起特定目的的攻击)?</strong></p>
-<p>为了尝试解决这个问题,有时候我们有一个额外的域参数:种子 <strong>S</strong>.这是一个随机数,用来生成系数a和b,或者基点G,或者两者一起.这些参数是通过计算种子 <strong>S</strong>的散列值来生成的.散列值,我们都知到,是计算“简单”,但是逆推“困难”的.<br><img src="/article/椭圆曲线密码学-ECDH和ECDSA/图1.png"></p>
+<p>为了尝试解决这个问题,有时候我们有一个额外的域参数:种子 <strong>S</strong>.这是一个随机数,用来生成系数a和b,或者基点G,或者两者一起.这些参数是通过计算种子 <strong>S</strong>的散列值来生成的.散列值,我们都知到,是计算“简单”,但是逆推“困难”的.</p>
+<img src="/article/椭圆曲线密码学-ECDH和ECDSA/图1.png">
 <blockquote>
 <p>如何从种子生成随机曲线的一个简单草图:一个随机数的散列值被用来计算曲线的不同参数.</p>
 </blockquote>
@@ -233,24 +237,28 @@
 <p>这种技巧应该给予一些保证,即 <strong>这个曲线没有被精心设计用来暴露一些漏洞给作者</strong>.事实上, 如果我和种子一起给你一个曲线,这意味着我并不能随心所欲的选择参数a和b,并且你应该相对的确定这个曲线不能被我用做特定目的的攻击.我为什么说“相对的”原因将在下一篇介绍.</p>
 <p>ANSI X9.62描述了一种标准的用来生成和检测随机曲线的算法,该算法基于<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" rel="noopener">SHA-1</a>.如果你好奇的话,你可以阅读这个算法,用于在<a href="http://www.secg.org/sec1-v2.pdf" target="_blank" rel="noopener"> a specification by SECG </a>上生成可验证的随机曲线(寻找“可验证的随机曲线和基点生成器”).</p>
 <p>我写了一个<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/verifyrandom.py" target="_blank" rel="noopener">小Python脚本</a> <strong>验证当前OpenSSl提供的所有随机曲线</strong>.我强烈建议你看看.</p>
-<h2><span id="椭圆曲线密码学">椭圆曲线密码学</span></h2><p>花费了很长时间,但是最后我们到达了!因此,纯粹而简单:</p>
+<h2><span id="椭圆曲线密码学">椭圆曲线密码学</span></h2>
+<p>花费了很长时间,但是最后我们到达了!因此,纯粹而简单:</p>
 <ol>
 <li><strong>私钥</strong>是一个从{1,…,n-1}(b是这个子群的阶)选取的随机整数.</li>
-<li><strong>公钥</strong>是点H=dG(G是子群的基点).<br>你明白了吗?如果我们知道了d和G(已经其他的域参数),得到H是“简单”的.但是如果我们知道了H和G, <strong>的到私钥d是“困难”的,因为这要求我们解决离散对数问题.</strong></li>
+<li><strong>公钥</strong>是点H=dG(G是子群的基点).<br>
+你明白了吗?如果我们知道了d和G(已经其他的域参数),得到H是“简单”的.但是如果我们知道了H和G, <strong>的到私钥d是“困难”的,因为这要求我们解决离散对数问题.</strong></li>
 </ol>
 <p>现在我们将要描述两个公钥算法,它们基于:ECDH(Elliptic curve Diffie-Hellman),用做加密,和ECDSA(Elliptic Curve Digital Signature Algorithm),用做数字签名.</p>
-<h2><span id="用ecdh加密">用ECDH加密</span></h2><p>ECDH是<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="noopener">Diffie-Hellman algorithm</a>的一个变体.它实际上是一个密钥交换算法,而不是一个加密算法.这基本上意味着ECDH定义了(某种程度上)双方如何生成和交换密钥.实际上如何使用这个密钥加密数据取决于我们.</p>
+<h2><span id="用ecdh加密">用ECDH加密</span></h2>
+<p>ECDH是<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="noopener">Diffie-Hellman algorithm</a>的一个变体.它实际上是一个密钥交换算法,而不是一个加密算法.这基本上意味着ECDH定义了(某种程度上)双方如何生成和交换密钥.实际上如何使用这个密钥加密数据取决于我们.</p>
 <p>它解决了如下问题:双方(通常是Alice和Bob)想安全的交换消息,但是第三方(中间人)可能会截获消息,但是不能机密消息.这是TLS的一个原理之一,仅仅给你一个例子.</p>
 <p>它是这样工作的:</p>
 <ol>
-<li>首先, <strong>Alice和Bob生成了他们自己的公钥和私钥.</strong>Alice有公钥私钥dA和公钥HA=dAG,Bob有dB和HB=dBG.注意Alice和Bob使用同样的域参数:同一个有限域上的同样的椭圆曲线的同一个基点G.</li>
+<li>首先, **Alice和Bob生成了他们自己的公钥和私钥.**Alice有公钥私钥dA和公钥HA=dAG,Bob有dB和HB=dBG.注意Alice和Bob使用同样的域参数:同一个有限域上的同样的椭圆曲线的同一个基点G.</li>
 <li><strong>Alice和Bob在一个不可信的信道中交换他们的公钥HA和HB</strong>.中间人截获了公钥HA和HB,但是在不解决离散对数问题的情况下是无法算出dA和dB.</li>
-<li><strong>Alice计算出S=dAHB</strong>(用她自己的私钥和Bob的公钥), <strong>Bob计算出S=dBHA</strong>(用他私钥和Alice的公钥).主要Alice和Bob的H是相等的,事实上:
-中间人实际上只知道HA和HB（以及其他的域参数）因此无法找出共享<strong>密钥S</strong>。这就是大家熟悉的Diffie-Hellman问题，可以表述如下：<blockquote>
+<li><strong>Alice计算出S=dAHB</strong>(用她自己的私钥和Bob的公钥), <strong>Bob计算出S=dBHA</strong>(用他私钥和Alice的公钥).主要Alice和Bob的H是相等的,事实上:</li>
+</ol>
+
+<p>中间人实际上只知道HA和HB（以及其他的域参数）因此无法找出共享<strong>密钥S</strong>。这就是大家熟悉的Diffie-Hellman问题，可以表述如下：</p>
+<blockquote>
 <p>给出三个点P，aP和bP，abP的结果是什么？</p>
 </blockquote>
-</li>
-</ol>
 <p>或者等价的：</p>
 <blockquote>
 <p>给出三个整数K，K^x和k^y，K^xy的结果是什么？</p>
@@ -264,8 +272,9 @@
 <p>椭圆曲线上的Diffie-Hellman问题别假设为一个“困难“问题。它被认为是和离散对数问题一样“困难”，虽然没有数学证明。我们能确定的是它不能“更困难”，因为解决对数问题是解决Diffie-Hellman的一个方法。</p>
 <p><strong>现在Alic和Bob获得了共享的密钥，他们可以用对称加密交换数据了。</strong></p>
 <p>例如，他们可以使用S的坐标x作为加密的密钥利用加密算法AES或者3DES来加密消息。这或多或少就是TLS做的，不同点是TLS把x坐标和一个和连接相关的数字连接起来，并且计算了它们组成的字节的散列值。</p>
-<h2><span id="玩转ecdh">玩转ECDH</span></h2><p>我写了另一个脚本（<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdhe.py" target="_blank" rel="noopener"> another Python script</a>） <strong>来计算椭圆曲线上的公钥/私钥和共享密钥。</strong></p>
-<p>不像目前为止我们看到的其他例子，这个脚本使用了标准曲线，而不是一个小域上简单椭圆曲线。我选的曲线是secp256k1，来自 <a href="http://www.secg.org/" target="_blank" rel="noopener">SECG</a> (“椭圆曲线组的标准”由 <a href="https://www.certicom.com/" target="_blank" rel="noopener">Certicom</a> 创立) 这个曲线也被用到了比特币中（<a href="https://en.bitcoin.it/wiki/Secp256k1" target="_blank" rel="noopener"> This same curve is also used by Bitcoin</a>）用来做数字签名。这是域参数：</p>
+<h2><span id="玩转ecdh">玩转ECDH</span></h2>
+<p>我写了另一个脚本（<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdhe.py" target="_blank" rel="noopener"> another Python script</a>） <strong>来计算椭圆曲线上的公钥/私钥和共享密钥。</strong></p>
+<p>不像目前为止我们看到的其他例子，这个脚本使用了标准曲线，而不是一个小域上简单椭圆曲线。我选的曲线是secp256k1，来自 <a href="http://www.secg.org/" target="_blank" rel="noopener">SECG</a> (&quot;椭圆曲线组的标准&quot;由 <a href="https://www.certicom.com/" target="_blank" rel="noopener">Certicom</a> 创立) 这个曲线也被用到了比特币中（<a href="https://en.bitcoin.it/wiki/Secp256k1" target="_blank" rel="noopener"> This same curve is also used by Bitcoin</a>）用来做数字签名。这是域参数：</p>
 <ul>
 <li>p  = 0xffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe fffffc2f</li>
 <li>a=0</li>
@@ -279,11 +288,18 @@
 <p>当然你可以随意修改脚本使用其他的曲线和域参数，只要保证使用有素数域并且Weierstrass正常形式曲线，不然脚本不能正常运行。</p>
 <p>这个脚本非常简单，包括了我们目前为止描述的一些算法：点加法，加倍（double）和相加(add),ECDH。我建议你阅读并运行它。它的输出像下面这样：</p>
 <blockquote>
-<p>Curve: secp256k1<br>Alice’s private key: 0xe32868331fa8ef0138de0de85478346aec5e3912b6029ae71691c384237a3eeb<br>Alice’s public key: (0x86b1aa5120f079594348c67647679e7ac4c365b2c01330db782b0ba611c1d677, 0x5f4376a23eed633657a90f385ba21068ed7e29859a7fab09e953cc5b3e89beba)<br>Bob’s private key: 0xcef147652aa90162e1fff9cf07f2605ea05529ca215a04350a98ecc24aa34342<br>Bob’s public key: (0x4034127647bb7fdab7f1526c7d10be8b28174e2bba35b06ffd8a26fc2c20134a, 0x9e773199edc1ea792b150270ea3317689286c9fe239dd5b9c5cfd9e81b4b632)<br>Shared secret: (0x3e2ffbc3aa8a2836c1689e55cd169ba638b58a3a18803fcf7de153525b28c3cd, 0x43ca148c92af58ebdb525542488a4fe6397809200fe8c61b41a105449507083)</p>
+<p>Curve: secp256k1<br>
+Alice’s private key: 0xe32868331fa8ef0138de0de85478346aec5e3912b6029ae71691c384237a3eeb<br>
+Alice’s public key: (0x86b1aa5120f079594348c67647679e7ac4c365b2c01330db782b0ba611c1d677, 0x5f4376a23eed633657a90f385ba21068ed7e29859a7fab09e953cc5b3e89beba)<br>
+Bob’s private key: 0xcef147652aa90162e1fff9cf07f2605ea05529ca215a04350a98ecc24aa34342<br>
+Bob’s public key: (0x4034127647bb7fdab7f1526c7d10be8b28174e2bba35b06ffd8a26fc2c20134a, 0x9e773199edc1ea792b150270ea3317689286c9fe239dd5b9c5cfd9e81b4b632)<br>
+Shared secret: (0x3e2ffbc3aa8a2836c1689e55cd169ba638b58a3a18803fcf7de153525b28c3cd, 0x43ca148c92af58ebdb525542488a4fe6397809200fe8c61b41a105449507083)</p>
 </blockquote>
-<h3><span id="短暂ecdh">短暂ECDH</span></h3><p>有些人听过ECDHE而不是ECDH。ECDHE中的这个”E”代表”Ephemeral”,是指“密钥交换是短暂的”，而不是静态的。</p>
+<h3><span id="短暂ecdh">短暂ECDH</span></h3>
+<p>有些人听过ECDHE而不是ECDH。ECDHE中的这个&quot;E&quot;代表&quot;Ephemeral&quot;,是指“密钥交换是短暂的”，而不是静态的。</p>
 <p>例如ECDHE用在TLS中，客户端和服务端在连接建立时各自生成自己的公私钥对。然后密钥用TLS证书签名（用来鉴定）后在两端交换。</p>
-<h2><span id="用ecdsa签名">用ECDSA签名</span></h2><p>方案如下：<strong>Alice想要用她的私钥（dA）签名一段消息</strong>，<strong>Bob想要用Alice的公钥（HA）验证签名</strong>。除了Alice其他人都不能创建一个合法的签名。任何人都能验证这个签名。</p>
+<h2><span id="用ecdsa签名">用ECDSA签名</span></h2>
+<p>方案如下：<strong>Alice想要用她的私钥（dA）签名一段消息</strong>，<strong>Bob想要用Alice的公钥（HA）验证签名</strong>。除了Alice其他人都不能创建一个合法的签名。任何人都能验证这个签名。</p>
 <p>同样，Alice和Bob使用同样的域参数。我们将要看到的算法是ECDSA,是数字签名算法（<a href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank" rel="noopener">Digital Signature Algorithm</a>）在椭圆曲线中应用的一个变种。</p>
 <p>ECDSA作用在消息的散列值上，而不是消息本省。散列函数的选择取决于我们自己，但是显而易见应该选择一个加密安全的散列函数（<a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function" target="_blank" rel="noopener">cryptographically-secure hash function</a>）.<strong>消息的散列值应该被截断</strong>以便它的比特长度和n一样。（子群的阶）。<strong>被截断的散列值是一个整数被表示为z。</strong></p>
 <p>Alice执行用来签名消息的算法如下：</p>
@@ -295,31 +311,56 @@
 <li>计算s=k^-1(z+rdA) mod n（这里dA是Alice的私钥，k^-1是k模n的乘法逆）。</li>
 <li>如果s=0，选取另一个k再试一次。</li>
 </ol>
-<p>（r,s）对就是签名<br><img src="/article/椭圆曲线密码学-ECDH和ECDSA/图4.png"></p>
+<p>（r,s）对就是签名</p>
+<img src="/article/椭圆曲线密码学-ECDH和ECDSA/图4.png">
 <blockquote>
 <p>Alice用私钥dA和随机数k签名散列值z。Bob用公钥HA验证被正确签名的的消息。</p>
 </blockquote>
 <p>简单来说，这个算法首先生成一个保密的k。多亏点的乘法这个k被隐藏在r中（正如我们所知道的，这个正向计算很“简单”，反向计算“很难”）。然后r根据等式s=k^-1(z+rdA) mod n绑定在消息的散列值。</p>
-<p>注意，为了计算s，我们计算了k模n的逆。在前面的文章中我们说过了，只有当n是素数是这个才能保证有效。<strong>如果子群没有素数阶，ECDSA无法使用。</strong>所有标准曲线都有素数阶并未偶然，那些没有素数阶的不适合ECDSA。</p>
-<h3><span id="验证签名">验证签名</span></h3><p>要验证签名我们需要用到Alice的公钥HA，（被截断的）散列值z，当然还有签名（r，s）。</p>
+<p>注意，为了计算s，我们计算了k模n的逆。在前面的文章中我们说过了，只有当n是素数是这个才能保证有效。**如果子群没有素数阶，ECDSA无法使用。**所有标准曲线都有素数阶并未偶然，那些没有素数阶的不适合ECDSA。</p>
+<h3><span id="验证签名">验证签名</span></h3>
+<p>要验证签名我们需要用到Alice的公钥HA，（被截断的）散列值z，当然还有签名（r，s）。</p>
 <ol>
 <li>计算整数u1=s^-1z mod n.</li>
 <li>计算整数u2=s^-1r mod n.</li>
-<li>计算点P=u1G+u2HA;<br>只有当r=xp mod n时签名合法。</li>
+<li>计算点P=u1G+u2HA;<br>
+只有当r=xp mod n时签名合法。</li>
 </ol>
-<h2><span id="算法的正确性">算法的正确性</span></h2><p>可能在第一眼看到时这个算法的逻辑并不明显，然而，如果我们把前面写的等式放在一起，一切就会变得明了。</p>
-<p>我们先从P=u1G+u2HA开始.我们从公钥的定义中知道，HA=dAG（这里dA是私钥）。我们可以这样写：<br><br>用u1和u2的定义，我们可以写成这样：<br><br>这里为了简介我们省略了”mod n”，并且因为G构造的循环子群的阶为n，因此”mod n”是多余的。</p>
-<p>前面，我们定义s=k^-1(z+rdA) mod n。等式两边同时乘以k除以s，我们得到：<br><br><strong>这个和我们第二步用签名构造算法得到的P是相等的！</strong>当构造签名和验证签名时我们用一组不同的等式计算出了相同的P。这就是为什么算法时正确的。</p>
-<h3><span id="玩转ecdsa">玩转ECDSA</span></h3><p>当然，我写了一个脚本（<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdsa.py" target="_blank" rel="noopener">a Python script </a>）<strong>来计算签名和签名验证</strong>。代码共享了ECDH脚本的一些模块，尤其的域参数和公钥/私钥对的计算。</p>
+<h2><span id="算法的正确性">算法的正确性</span></h2>
+<p>可能在第一眼看到时这个算法的逻辑并不明显，然而，如果我们把前面写的等式放在一起，一切就会变得明了。</p>
+<p>我们先从P=u1G+u2HA开始.我们从公钥的定义中知道，HA=dAG（这里dA是私钥）。我们可以这样写：</p>
+
+<p>用u1和u2的定义，我们可以写成这样：</p>
+
+<p>这里为了简介我们省略了&quot;mod n&quot;，并且因为G构造的循环子群的阶为n，因此&quot;mod n&quot;是多余的。</p>
+<p>前面，我们定义s=k^-1(z+rdA) mod n。等式两边同时乘以k除以s，我们得到：</p>
+
+<p>**这个和我们第二步用签名构造算法得到的P是相等的！**当构造签名和验证签名时我们用一组不同的等式计算出了相同的P。这就是为什么算法时正确的。</p>
+<h3><span id="玩转ecdsa">玩转ECDSA</span></h3>
+<p>当然，我写了一个脚本（<a href="https://github.com/andreacorbellini/ecc/blob/master/scripts/ecdsa.py" target="_blank" rel="noopener">a Python script </a>）<strong>来计算签名和签名验证</strong>。代码共享了ECDH脚本的一些模块，尤其的域参数和公钥/私钥对的计算。</p>
 <p>它的输出像下面这样：</p>
 <blockquote>
-<p>Curve: secp256k1<br>Private key: 0x9f4c9eb899bd86e0e83ecca659602a15b2edb648e2ae4ee4a256b17bb29a1a1e<br>Public key: (0xabd9791437093d377ca25ea974ddc099eafa3d97c7250d2ea32af6a1556f92a, 0x3fe60f6150b6d87ae8d64b78199b13f26977407c801f233288c97ddc4acca326)</p>
-<p>Message: b’Hello!’<br>Signature: (0xddcb8b5abfe46902f2ac54ab9cd5cf205e359c03fdf66ead1130826f79d45478, 0x551a5b2cd8465db43254df998ba577cb28e1ee73c5530430395e4fba96610151)<br>Verification: signature matches</p>
-<p>Message: b’Hi there!’<br>Verification: invalid signature</p>
-<p>Message: b’Hello!’<br>Public key: (0xc40572bb38dec72b82b3efb1efc8552588b8774149a32e546fb703021cf3b78a, 0x8c6e5c5a9c1ea4cad778072fe955ed1c6a2a92f516f02cab57e0ba7d0765f8bb)<br>Verification: invalid signature</p>
+<p>Curve: secp256k1<br>
+Private key: 0x9f4c9eb899bd86e0e83ecca659602a15b2edb648e2ae4ee4a256b17bb29a1a1e<br>
+Public key: (0xabd9791437093d377ca25ea974ddc099eafa3d97c7250d2ea32af6a1556f92a, 0x3fe60f6150b6d87ae8d64b78199b13f26977407c801f233288c97ddc4acca326)</p>
 </blockquote>
-<p>正如你看到的，脚本首先签名了一段信息（”Hello”的字节串），然后验证了签名。之后，尝试用相同的签名去验证另一条消息（”Hi there”），验证失败。最后，它尝试用签名验证正确的消息，但是使用另一个随机的公钥，验证失败。</p>
-<h2><span id="k的重要性">k的重要性</span></h2><p>当我们生成ECDSA签名，确保机密的k真的保密很重要。如果我们对所有签名使用同样的k，或者如果我们的随机数生成器在某些方面可预测，<em>**一种攻击能够找出私钥！</em></p>
+<blockquote>
+<p>Message: b’Hello!'<br>
+Signature: (0xddcb8b5abfe46902f2ac54ab9cd5cf205e359c03fdf66ead1130826f79d45478, 0x551a5b2cd8465db43254df998ba577cb28e1ee73c5530430395e4fba96610151)<br>
+Verification: signature matches</p>
+</blockquote>
+<blockquote>
+<p>Message: b’Hi there!'<br>
+Verification: invalid signature</p>
+</blockquote>
+<blockquote>
+<p>Message: b’Hello!'<br>
+Public key: (0xc40572bb38dec72b82b3efb1efc8552588b8774149a32e546fb703021cf3b78a, 0x8c6e5c5a9c1ea4cad778072fe955ed1c6a2a92f516f02cab57e0ba7d0765f8bb)<br>
+Verification: invalid signature</p>
+</blockquote>
+<p>正如你看到的，脚本首先签名了一段信息（&quot;Hello&quot;的字节串），然后验证了签名。之后，尝试用相同的签名去验证另一条消息（“Hi there”），验证失败。最后，它尝试用签名验证正确的消息，但是使用另一个随机的公钥，验证失败。</p>
+<h2><span id="k的重要性">k的重要性</span></h2>
+<p>当我们生成ECDSA签名，确保机密的k真的保密很重要。如果我们对所有签名使用同样的k，或者如果我们的随机数生成器在某些方面可预测，**<em>一种攻击能够找出私钥！</em></p>
 <p>这是索尼几年前犯的一个错误（<a href="http://www.bbc.com/news/technology-12116051" target="_blank" rel="noopener">This is the kind of mistake made by Sony a few years ago</a>）.基本上，PlayStation 3游戏机只能运行ECDSA签名的游戏。这样，如果我想为PlayStation 3开发一个新游戏，在没有索尼的签名的情况下我没办法把它发布出去。问题是：索尼所有的签名都是用用一个静态的k构造的。</p>
 <p>（显然索尼的随机数生成器受了<a href="https://xkcd.com/221/" target="_blank" rel="noopener">XKCD</a>和<a href="http://dilbert.com/strip/2001-10-25" target="_blank" rel="noopener">Dilbert</a>的启发）</p>
 <p>这种情况下，只要购买两款索尼签名的游戏我们就能够很容易的恢复出私钥ds，提取它们的散列值（z1和z2）和签名((r1,s1)和(r2,s2))，以及域参数。以下是如何操作：</p>
@@ -327,11 +368,16 @@
 <li>首先，注意r1=r2(因为r=xp mod n，P=kG对每一个签名都是一样的).</li>
 <li>考虑到(s1 - s2)mod n = k^-1(z1 -z2) mod n(这个结果可以直接由s的等式得出).</li>
 <li>现在等式两边同时乘以k： k(s1−s2) mod n= (z1−z2) mod n.</li>
-<li>除以(s1 -s2)得到k=(z1−z2)(s1−s2)^-1 mod n.<br>最后一个等式能够让我们仅仅使用两个散列值和它们对应的签名计算k。现在我们根据s的等式提取出私钥：<br><center>s=k^-1(z+rds) mod n => ds=r^-1(sk-z) mod n</center><br>一些情况下如果k不是静态的但是是可预测的，同样的技术也能使用。</li>
+<li>除以(s1 -s2)得到k=(z1−z2)(s1−s2)^-1 mod n.<br>
+最后一个等式能够让我们仅仅使用两个散列值和它们对应的签名计算k。现在我们根据s的等式提取出私钥：</li>
 </ul>
-<h2><span id="周末愉快">周末愉快</span></h2><p>我真心希望你们能喜欢我写的这些。和往常一样，毫不犹豫的留下你们的评论，或者需要任何帮助可以戳我。（译者注：怎么戳？？？）</p>
+<center>s=k^-1(z+rds) mod n => ds=r^-1(sk-z) mod n</center>
+一些情况下如果k不是静态的但是是可预测的，同样的技术也能使用。
+<h2><span id="周末愉快">周末愉快</span></h2>
+<p>我真心希望你们能喜欢我写的这些。和往常一样，毫不犹豫的留下你们的评论，或者需要任何帮助可以戳我。（译者注：怎么戳？？？）</p>
 <p>下周我将发布第四篇也就是这个系列的最后一篇文章。它将涉及解决离散对数问题的技术，椭圆曲线密码学的一些重要问题，以及ECC和RSA的对比。不要错过哦！！</p>
 <h2><span id="哇翻译真心比码代码累呀">哇，翻译真心比码代码累呀！！</span></h2>
+
                 
 
                 <hr>
