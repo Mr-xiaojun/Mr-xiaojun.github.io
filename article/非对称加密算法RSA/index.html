@@ -138,14 +138,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -340,6 +340,31 @@ $$m^{kφ(N)+1}≡m(mod \ N)$$<br>
 成立！<br>
 至此，RSA算法原理得到证明！！！</li>
 </ol>
+<h2><span id="rsa算法的可靠性">RSA算法的可靠性</span></h2>
+<p>在RSA密钥生成过程中一共出现了六个数：\(P、Q、N、φ(N)、e、d、\)。<br>
+其中公钥是\((e,N)\),私钥是\((d,N)\)，除了公钥其他数字都不公开。<br>
+要想破解RSA必须得的到\(d\)才行。我们可以根据RSA的工作方式来推算\(d\).</p>
+<blockquote>
+<p>\(ed≡1(mod \ φ(N))\),已知\(e\)的情况下只有知道\(φ(N)\)才能算出\(d\).<br>
+\(φ(N)=(P-1)(Q-1)\),只有知道\(P,Q\)才能算出\(φ(N)\).<br>
+\(N=PQ\),只有将已知的\(N\)进行因数分解才能得到\(P和Q\).</p>
+</blockquote>
+<p>所以要想破解RSA就必须将\(N\)进行因数分解。但现在并没有很好的方法对一个数进行因数分解，唯一有效的方法就是暴力分解。<br>
+也许有人说了，现在计算机如此之快，分解一个数不是很简单么！<br>
+的确现在计算机每秒可以轻松实现几亿次计算，超级计算机甚至可以达到每秒亿亿次浮点计算。超级计算机可以瞬间分解1234567689098765432这样一个数，但是别忘了RSA密钥的长度是1024，2048，4096.一个1024bit长度的数大概长什么样子呢？大概长这样：</p>
+<blockquote>
+<p>12301866845301177551304949<br>
+　　58384962720772853569595334<br>
+　　79219732245215172640050726<br>
+　　36575187452021997864693899<br>
+　　56474942774063845925192557<br>
+　　32630345373154826850791702<br>
+　　61221429134616704292143116<br>
+　　02221240479274737794080665<br>
+　　351419597459856902143413</p>
+</blockquote>
+<p>这个数的大小大概是1亿亿亿亿…大概30个亿吧。超级计算器也只能看看！！！<br>
+实际上人了目前借助各种工具分解过最大的数字是768个bit位！RSA目前看来还是安全的！</p>
 <h2><span id="结束语">结束语</span></h2>
 <p>这篇文章涉及数论中一些证明，有很多公式，书写起来非常麻烦。好在终于写完了，是真的累！！！！！如果能让更多人了解一下RSA原理，累也算值得吧！<br>
 后面证明的部分网上有一些版本，但是大都跳跃性比较大，不容易理解，我这里将证明过程尽量些的详细，如果还有人看不懂的话可以留言，看到我会解释的！</p>
@@ -399,7 +424,7 @@ $$m^{kφ(N)+1}≡m(mod \ N)$$<br>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="rsa&#x7684;&#x8BDE;&#x751F;">RSA&#x7684;&#x8BDE;&#x751F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="rsa&#x4E3A;&#x4F55;&#x5982;&#x6B64;&#x91CD;&#x8981;">RSA&#x4E3A;&#x4F55;&#x5982;&#x6B64;&#x91CD;&#x8981;&#xFF1F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="rsa&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;">RSA&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><span id="&#x516C;&#x79C1;&#x94A5;&#x521D;&#x59CB;&#x5316;">&#x516C;&#x79C1;&#x94A5;&#x521D;&#x59CB;&#x5316;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><span id="&#x6D88;&#x606F;&#x52A0;&#x5BC6;">&#x6D88;&#x606F;&#x52A0;&#x5BC6;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><span id="&#x6D88;&#x606F;&#x89E3;&#x5BC6;">&#x6D88;&#x606F;&#x89E3;&#x5BC6;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="rsa&#x539F;&#x7406;&#x8BC1;&#x660E;">RSA&#x539F;&#x7406;&#x8BC1;&#x660E;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><span id="&#x4E00;&#x70B9;&#x6570;&#x8BBA;&#x77E5;&#x8BC6;">&#x4E00;&#x70B9;&#x6570;&#x8BBA;&#x77E5;&#x8BC6;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.1.</span> <span class="toc-nav-text"><span id="&#x4E92;&#x8D28;&#x5173;&#x7CFB;">&#x4E92;&#x8D28;&#x5173;&#x7CFB;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.2.</span> <span class="toc-nav-text"><span id="&#x540C;&#x4F59;&#x5F0F;">&#x540C;&#x4F59;&#x5F0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.3.</span> <span class="toc-nav-text"><span id="&#x6A21;&#x53CD;&#x5143;&#x7D20;">&#x6A21;&#x53CD;&#x5143;&#x7D20;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text"><span id="&#x6B27;&#x62C9;&#x51FD;&#x6570;">&#x6B27;&#x62C9;&#x51FD;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text"><span id="&#x6B27;&#x62C9;&#x5B9A;&#x7406;">&#x6B27;&#x62C9;&#x5B9A;&#x7406;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text"><span id="rsa&#x52A0;&#x89E3;&#x5BC6;&#x6B63;&#x786E;&#x6027;&#x8BC1;&#x660E;">RSA&#x52A0;&#x89E3;&#x5BC6;&#x6B63;&#x786E;&#x6027;&#x8BC1;&#x660E;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="&#x7ED3;&#x675F;&#x8BED;">&#x7ED3;&#x675F;&#x8BED;</span></span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="rsa&#x7684;&#x8BDE;&#x751F;">RSA&#x7684;&#x8BDE;&#x751F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="rsa&#x4E3A;&#x4F55;&#x5982;&#x6B64;&#x91CD;&#x8981;">RSA&#x4E3A;&#x4F55;&#x5982;&#x6B64;&#x91CD;&#x8981;&#xFF1F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="rsa&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;">RSA&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><span id="&#x516C;&#x79C1;&#x94A5;&#x521D;&#x59CB;&#x5316;">&#x516C;&#x79C1;&#x94A5;&#x521D;&#x59CB;&#x5316;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><span id="&#x6D88;&#x606F;&#x52A0;&#x5BC6;">&#x6D88;&#x606F;&#x52A0;&#x5BC6;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><span id="&#x6D88;&#x606F;&#x89E3;&#x5BC6;">&#x6D88;&#x606F;&#x89E3;&#x5BC6;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="rsa&#x539F;&#x7406;&#x8BC1;&#x660E;">RSA&#x539F;&#x7406;&#x8BC1;&#x660E;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><span id="&#x4E00;&#x70B9;&#x6570;&#x8BBA;&#x77E5;&#x8BC6;">&#x4E00;&#x70B9;&#x6570;&#x8BBA;&#x77E5;&#x8BC6;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.1.</span> <span class="toc-nav-text"><span id="&#x4E92;&#x8D28;&#x5173;&#x7CFB;">&#x4E92;&#x8D28;&#x5173;&#x7CFB;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.2.</span> <span class="toc-nav-text"><span id="&#x540C;&#x4F59;&#x5F0F;">&#x540C;&#x4F59;&#x5F0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.1.3.</span> <span class="toc-nav-text"><span id="&#x6A21;&#x53CD;&#x5143;&#x7D20;">&#x6A21;&#x53CD;&#x5143;&#x7D20;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text"><span id="&#x6B27;&#x62C9;&#x51FD;&#x6570;">&#x6B27;&#x62C9;&#x51FD;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text"><span id="&#x6B27;&#x62C9;&#x5B9A;&#x7406;">&#x6B27;&#x62C9;&#x5B9A;&#x7406;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text"><span id="rsa&#x52A0;&#x89E3;&#x5BC6;&#x6B63;&#x786E;&#x6027;&#x8BC1;&#x660E;">RSA&#x52A0;&#x89E3;&#x5BC6;&#x6B63;&#x786E;&#x6027;&#x8BC1;&#x660E;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="rsa&#x7B97;&#x6CD5;&#x7684;&#x53EF;&#x9760;&#x6027;">RSA&#x7B97;&#x6CD5;&#x7684;&#x53EF;&#x9760;&#x6027;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><span id="&#x7ED3;&#x675F;&#x8BED;">&#x7ED3;&#x675F;&#x8BED;</span></span></a></li></ol>
         
         </div>
       </aside>
