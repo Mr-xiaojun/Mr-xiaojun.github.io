@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://mysite/article/%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E5%AD%A6%E7%AE%80%E4%BB%8B/</loc>
+        <lastmod>2019-02-21T08:22:25.975Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://mysite/article/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95RSA/</loc>
         <lastmod>2019-01-29T11:41:29.915Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -41,14 +49,6 @@
     <url>
         <loc>https://mysite/article/%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF-%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98/</loc>
         <lastmod>2018-11-12T09:10:06.013Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://mysite/article/%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E5%AD%A6%E7%AE%80%E4%BB%8B/</loc>
-        <lastmod>2018-10-26T16:00:41.570Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

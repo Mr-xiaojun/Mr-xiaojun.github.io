@@ -138,14 +138,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -330,7 +330,16 @@ P = Q 的情况需要做点不同的处理：方程中 xR 和 yR 相同, 由于 
 用这种方法，我们可以将n这样写:</p>
 <img src="/article/椭圆曲线密码学简介/公式13.png">
 <p>“加倍（double)与相加（add)”算法需要这样做:<br>
-• 取 P. • 加倍，得到2P. • 2P与P相加(为了得到 21P + 20P). • 加倍 2P，得到22 P. • 与前一结果相加 (得到 22P + 21P + 20P). • 加倍 22P，得到23P. • 对23P不做任何操作. • 加倍23P，得到24P. • 与前一结果相加 (得到 24P + 22P + 21P + 20P). • … 最后，我们可以计算151 • P ，只需7次“加倍”运算和4次“相加”运算。</p>
+• 取 \(P\).<br>
+• 加倍，得到\(2P\).<br>
+• \(2P\)与\(P\)相加(为了得到 \(2^{1}P + 2^{0}P\)).<br>
+• 加倍 \(2P\)，得到\(2^{2}P\).<br>
+• 与前一结果相加 (得到 \(2^{2}P + 2^{1}P + 2^{0}P\)).<br>
+• 加倍 \(2^{2}P\)，得到\(2^{3}P\).<br>
+• 对\(2^{3}P\)不做任何操作.<br>
+• 加倍\(2^{3}P\)，得到\(2^{4}P\).<br>
+• 与前一结果相加 (得到 \(2^{4}P + 2^{2}P + 2^{1}P + 2^{0}P\)).<br>
+• … 最后，我们可以计算\(151 • P\) ，只需7次“加倍”运算和4次“相加”运算。</p>
 <p>如果还不够清楚，这里有一个实现该算法的python代码段：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def bits(n):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Generates the binary digits of n, starting</span><br><span class="line">    from the least significant bit.</span><br><span class="line"></span><br><span class="line">    bits(151) -&gt; 1, 1, 1, 0, 1, 0, 0, 1</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    while n:</span><br><span class="line">        yield n &amp; 1</span><br><span class="line">        n &gt;&gt;= 1</span><br><span class="line"></span><br><span class="line">def double_and_add(n, x):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Returns the result of n * x, computed using</span><br><span class="line">    the double and add algorithm.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    result = 0</span><br><span class="line">    addend = x</span><br><span class="line"></span><br><span class="line">    for bit in bits(n):</span><br><span class="line">        if bit == 1:</span><br><span class="line">            result += addend</span><br><span class="line">        addend *= 2</span><br><span class="line"></span><br><span class="line">    return result</span><br></pre></td></tr></table></figure>
 <p>如果“加倍”和“相加”操作复杂度均为O(1),那么 该算法的时间复杂度为O(log n) (或是O(k)，如果我们考虑的是二进制位的长度），这相当不错。比最初O(n)的算法肯定要好得多。</p>
