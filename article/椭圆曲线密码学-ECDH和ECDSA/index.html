@@ -145,14 +145,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -210,7 +210,7 @@
 
                 <p><strong>这期内容是ECC:基本介绍(<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener">ECC:a gentle introduction</a>)系列的第三篇.</strong></p>
 <p>在之前的内容中,我们介绍了<a href="http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/#elliptic-curves" target="_blank" rel="noopener">什么是椭圆曲线</a>并且为了在椭圆曲线的点上做一些数学运算我们定义了一个 <strong>群公理</strong>然后我们 <strong>限定椭圆曲线到整数模一个素数的有限域</strong> .在这个限定下,我们介绍了椭圆曲线的点生成的循环子群并且介绍了术语 <strong>基点</strong>, <strong>阶</strong>和 <strong>辅助因子</strong>.</p>
-<p>最后,我们看到有限域上的标量惩罚是一个“简单”问题,而离散对数问题似乎是一个“难”问题.现在我们将要看到所有这些在密码学中的应用.</p>
+<p>最后,我们看到有限域上的标量乘法是一个“简单”问题,而离散对数问题似乎是一个“难”问题.现在我们将要看到所有这些在密码学中的应用.</p>
 <h2><span id="域参数">域参数</span></h2>
 <p>我们的椭圆曲线算法运行在有限域上的椭圆曲线的循环子群中.因此我们的算法需要下面的参数:</p>
 <ul>
@@ -222,8 +222,8 @@
 结论是,我们的算法的 <strong>域参数</strong>是一个六元组(p,a,b,G,n,h).</li>
 </ul>
 <h2><span id="随机曲线">随机曲线</span></h2>
-<p>当我说离散对数问题是“困难”的,其实并不完全正确.存在 <strong>一些椭圆曲线尤其脆弱</strong>并且允许用使用特定目的的算法来有效的解决离散对数问题.例如,所有满足p=hn(这是有限域的阶等于椭圆曲线的阶)的曲线对于Smart的攻击<a href="http://interact.sagemath.org/edu/2010/414/projects/novotney.pdf" target="_blank" rel="noopener">Smart’s attack</a>都很脆弱,这个可以被用来在传统计算机上多项式时间内解决离散对数问题.</p>
-<p>现在,假设我给你一个椭圆曲线的域参数.有可能我发现了一个其他人不知道的新的脆弱的曲线,并且可能我已经在给你的曲线构造了一个“快”算法来解决离散对数问题.我如何说服你相信,我并不知道这个曲线的任何弱点. <strong>我如何想你保证这个曲线是“安全的”(这意味着我不能利用它发起特定目的的攻击)?</strong></p>
+<p>当我说离散对数问题是“困难”的,其实并不完全正确.存在 <strong>一些椭圆曲线尤其脆弱</strong>并且允许用使用特定目的的算法来有效的解决离散对数问题.例如,所有满足p=hn(这时有限域的阶等于椭圆曲线的阶)的曲线对于Smart的攻击<a href="http://interact.sagemath.org/edu/2010/414/projects/novotney.pdf" target="_blank" rel="noopener">Smart’s attack</a>都很脆弱,这个可以被用来在传统计算机上多项式时间内解决离散对数问题.</p>
+<p>现在,假设我给你一个椭圆曲线的域参数.有可能我发现了一个其他人不知道的新的脆弱的曲线,并且可能我已经在给你的曲线构造了一个“快”算法来解决离散对数问题.我如何说服你相信,我并不知道这个曲线的任何弱点. <strong>我如何向你保证这个曲线是“安全的”(这意味着我不能利用它发起特定目的的攻击)?</strong></p>
 <p>为了尝试解决这个问题,有时候我们有一个额外的域参数:种子 <strong>S</strong>.这是一个随机数,用来生成系数a和b,或者基点G,或者两者一起.这些参数是通过计算种子 <strong>S</strong>的散列值来生成的.散列值,我们都知到,是计算“简单”,但是逆推“困难”的.</p>
 <img src="/article/椭圆曲线密码学-ECDH和ECDSA/图1.png">
 <blockquote>
@@ -240,28 +240,28 @@
 <h2><span id="椭圆曲线密码学">椭圆曲线密码学</span></h2>
 <p>花费了很长时间,但是最后我们到达了!因此,纯粹而简单:</p>
 <ol>
-<li><strong>私钥</strong>是一个从{1,…,n-1}(b是这个子群的阶)选取的随机整数.</li>
+<li><strong>私钥</strong>是一个从{1,…,n-1}(n是这个子群的阶)选取的随机整数d.</li>
 <li><strong>公钥</strong>是点H=dG(G是子群的基点).<br>
-你明白了吗?如果我们知道了d和G(已经其他的域参数),得到H是“简单”的.但是如果我们知道了H和G, <strong>的到私钥d是“困难”的,因为这要求我们解决离散对数问题.</strong></li>
+你明白了吗?如果我们知道了d和G(已经其他的域参数),得到H是“简单”的.但是如果我们知道了H和G, <strong>得到私钥d是“困难”的,因为这要求我们解决离散对数问题.</strong></li>
 </ol>
 <p>现在我们将要描述两个公钥算法,它们基于:ECDH(Elliptic curve Diffie-Hellman),用做加密,和ECDSA(Elliptic Curve Digital Signature Algorithm),用做数字签名.</p>
 <h2><span id="用ecdh加密">用ECDH加密</span></h2>
 <p>ECDH是<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="noopener">Diffie-Hellman algorithm</a>的一个变体.它实际上是一个密钥交换算法,而不是一个加密算法.这基本上意味着ECDH定义了(某种程度上)双方如何生成和交换密钥.实际上如何使用这个密钥加密数据取决于我们.</p>
-<p>它解决了如下问题:双方(通常是Alice和Bob)想安全的交换消息,但是第三方(中间人)可能会截获消息,但是不能机密消息.这是TLS的一个原理之一,仅仅给你一个例子.</p>
+<p>它解决了如下问题:双方(通常是Alice和Bob)想安全的交换消息,但是第三方(中间人)可能会截获消息,但是不能解密消息.这是TLS的一个原理之一,仅仅给你一个例子.</p>
 <p>它是这样工作的:</p>
 <ol>
-<li>首先, **Alice和Bob生成了他们自己的公钥和私钥.**Alice有公钥私钥dA和公钥HA=dAG,Bob有dB和HB=dBG.注意Alice和Bob使用同样的域参数:同一个有限域上的同样的椭圆曲线的同一个基点G.</li>
-<li><strong>Alice和Bob在一个不可信的信道中交换他们的公钥HA和HB</strong>.中间人截获了公钥HA和HB,但是在不解决离散对数问题的情况下是无法算出dA和dB.</li>
-<li><strong>Alice计算出S=dAHB</strong>(用她自己的私钥和Bob的公钥), <strong>Bob计算出S=dBHA</strong>(用他私钥和Alice的公钥).主要Alice和Bob的H是相等的,事实上:</li>
+<li>首先, <strong>Alice和Bob生成了他们自己的公钥和私钥.</strong> Alice有私钥\(d_A\)和公钥\(H_A\)=\(d_{A}G\),Bob有\(d_B\)和\(H_B\)=\(d_{B}G\).注意Alice和Bob使用同样的域参数:同一个有限域上的同样的椭圆曲线的同一个基点\(G\).</li>
+<li><strong>Alice和Bob在一个不可信的信道中交换他们的公钥\(H_A\)和\(H_B\)</strong>.中间人截获了公钥\(H_A\)和\(H_B\),但是在不解决离散对数问题的情况下是无法算出\(d_A\)和\(d_B\).</li>
+<li><strong>Alice计算出\(S=d_{A}H_{B}\)</strong>(用她自己的私钥和Bob的公钥), <strong>Bob计算出\(S=d_{B}H_{A}\)</strong>(用他私钥和Alice的公钥).这里Alice和Bob的H是相等的,事实上:</li>
 </ol>
 
-<p>中间人实际上只知道HA和HB（以及其他的域参数）因此无法找出共享<strong>密钥S</strong>。这就是大家熟悉的Diffie-Hellman问题，可以表述如下：</p>
+<p>中间人实际上只知道\(H_A\)和\(H_B\)（以及其他的域参数）因此无法找出共享<strong>密钥\(S\)</strong>。这就是大家熟悉的Diffie-Hellman问题，可以表述如下：</p>
 <blockquote>
-<p>给出三个点P，aP和bP，abP的结果是什么？</p>
+<p>给出三个点\(P\)，\(aP\)和\(bP\)，\(abP\)的结果是什么？</p>
 </blockquote>
 <p>或者等价的：</p>
 <blockquote>
-<p>给出三个整数K，K^x和k^y，K^xy的结果是什么？</p>
+<p>给出三个整数\(K\),\(K^x\)和\(K^y\)，\(K^{xy}\)的结果是什么？</p>
 </blockquote>
 <p>（Diffie-Hellman算法更早的基于模数运算的表示形式）</p>
 <img src="/article/椭圆曲线密码学-ECDH和ECDSA/图3.png">
