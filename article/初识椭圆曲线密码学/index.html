@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          About - Mr小军 | Blog
+          初识椭圆曲线密码学 - Mr小军 | Blog
         
     </title>
 
-    <link rel="canonical" href="https://mysite/about/">
+    <link rel="canonical" href="https://mysite/article/初识椭圆曲线密码学/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/about.jpg')
-            /*page*/
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
         
     }
     
@@ -83,10 +83,16 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>About</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">技术只是生活的一部分</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>初识椭圆曲线密码学</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mr小军 on
+                            2019-02-26
+                        </span>
                     </div>
                 
 
@@ -189,202 +195,180 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <h3><span id="一句话">一句话</span></h3>
-<blockquote>
-<p>这个世界真神奇</p>
-</blockquote>
-<h3><span id="关于我">关于我</span></h3>
-<blockquote>
-<p>喜欢技术,对很多问题都感兴趣!</p>
-</blockquote>
-<h3><span id="兴趣方向">兴趣方向</span></h3>
-<blockquote>
-<p>移动研发,信息安全</p>
-</blockquote>
-<h3><span id="联系我">联系我</span></h3>
-<blockquote>
-<p>Email: <a href="http://xiaojun-ma.qq.com" target="_blank" rel="noopener">xiaojun-ma.qq.com</a></p>
-</blockquote>
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
+                <p>##非对称加密</p>
+<p>接触过密码学的人一定听说过大名鼎鼎的非对称加密算法RSA（不了解RSA的同学可以看看这篇文章<a href="https://mr-xiaojun.github.io/article/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95RSA/" target="_blank" rel="noopener">非对称加密算法RSA</a>）。RSA于1977年被三位数学家提出，它的诞生正式标志着现代密码学的开始，成功的解决了不安全信道中密钥交换的问题。直到今天RSA依然是非对称加密算法的主力。RSA算法原理简单，容易理解，实现起来也比较容易，因此被开发者广泛了解，很多人直接将非对称加密和RSA等同起来了。但是随着现代超级计算机算力的不断提升，RSA必须不断的使用更长的密钥才能保证安全性，这意味着RSA在普通计算机中加解密的性能将越来越低。长期来看，新的更加高效的算法取代RSA已经成为一个必然的趋势。</p>
+<p>而新一代非对称加密算法椭圆曲线密码学也由此应运而生，它加密强度高，运算速度快，密钥更短等特点弥补了RSA的几个短板。作为RSA的替代品椭圆曲线密码学正在快速的崛起。</p>
+<p>今天我们就介绍一下号称加密算法中最难懂，也是最强大的加密算法椭圆曲线密码学。</p>
+<p>椭圆曲线密码学英文缩写ECC（Elliptic Cuver Cryptography）。作为后来者，在非对称加密算法中表现出了优异的性能，相比RSA它有更短的密钥，更高的安全强度，更快的计算速度。并且同样适用于密钥交换和验签。越来越多的大公司已经投入了ECC的怀抱。作为一个优秀的开发者，我们也应到跟上技术的革新，了解一下这个神秘而强大的加密算法。</p>
+<p>椭圆曲线密码学涉及到群公论、离散对数问题、几何加法、数论、有限域等众多数学问题，异常晦涩难懂。但是作为一个正在被广泛使用的非对称加密算法，它值得我们花费时间和精力去了解。这里我将尽力以最小的篇幅让读者对ECC有一个基本的认识，要想探究ECC的详细原理可以看看前面几篇翻译的文章，有非常详细的原理讲解。</p>
+<h2><span id="初识椭圆曲线">初识椭圆曲线</span></h2>
+<p>在椭圆曲线密码学中我们将下面等式上的所有点的集合称为椭圆曲线：<br>
+$$y^{2}=x^{3}+ax+b$$</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/非对称加密算法RSA/" data-toggle="tooltip" data-placement="top" title="非对称加密算法RSA">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
 
                 <br>
-
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
                 
-                    <hr>
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYzMy8xNzE2MA=="></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x521D;&#x8BC6;&#x692D;&#x5706;&#x66F2;&#x7EBF;">&#x521D;&#x8BC6;&#x692D;&#x5706;&#x66F2;&#x7EBF;</span></span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
 
                     
-
-                    
-
-                    
-                        <!-- disqus 评论框 start -->
-                        <div class="comment">
-                            <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYzMy8xNzE2MA=="></div>
-                        </div>
-                        <!-- disqus 评论框 end -->
-                    
-
-                    
-
-                    
-
-                    
-                    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
-                    <script type="text/javascript">
-                       (function(d, s) {
-                           var j, e = d.getElementsByTagName(s)[0];
-                    
-                           if (typeof LivereTower === 'function') { return; }
-                    
-                           j = d.createElement(s);
-                           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-                           j.async = true;
-                    
-                           e.parentNode.insertBefore(j, e);
-                       })(document, 'script');
-                    </script>
-                    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-                    <!-- 来必力City版 公共JS代码 end -->
-                    
-
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
+
+
+
+
+
+    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
     
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
-
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
-
-        
-            <p>Life  is  a  game</p>
-        
-
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-
-            
-
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/Mr-xiaojun">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-        <hr>
+           if (typeof LivereTower === 'function') { return; }
     
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/初识椭圆曲线密码学/">初识椭圆曲线密码学</a>
-        </li>
-      
-        <li>
-          <a href="/article/非对称加密算法RSA/">非对称加密算法RSA</a>
-        </li>
-      
-        <li>
-          <a href="/article/应用密码学都研究哪些内容？/">应用密码学都研究哪些内容？</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线密码学-安全破解以及和RSA的对比/">椭圆曲线密码:安全破解以及和RSA的对比</a>
-        </li>
-      
-        <li>
-          <a href="/article/椭圆曲线密码学-ECDH和ECDSA/">椭圆曲线密码学:ECDH和ECDSA</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
     
-        <!-- Friends Blog -->
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- 来必力City版 公共JS代码 end -->
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
 
-    
-</ul>
 
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
-    </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
